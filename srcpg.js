@@ -1,20 +1,22 @@
-// this is all probably terribly messy/inefficient. I've left the majority of the code used for the website as well for archival purposes. proper coder type people probably do things differently, i dunno, this made sense to me.
- 
+// this is all probably terribly messy/inefficient. but it works for me.
 
 //ah get random! the heart of our generator, gotta love those dice rolls!
 const rand = function getRandomIntInclusive(min, max) {
-const minCeiled = Math.ceil(min);
-const maxFloored = Math.floor(max);
-return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
+  const minCeiled = Math.ceil(min);
+  const maxFloored = Math.floor(max);
+  return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
 };
 
-let h1 = 0, h2 = 0, h3 = 0, h4 = 0, h5 = 0;
-// mmm declaration of variables. i left the hueSeed and hueRange (and satSeed and litSeed) out of the functions for color debug reasons so I could check what bits were being used to generate the pallets, and adjust bits as necessary. then I just thought it was cool to be able to see them whenever I wanted. 
+let h1 = 0,
+  h2 = 0,
+  h3 = 0,
+  h4 = 0,
+  h5 = 0;
+// mmm declaration of variables. i left the hueSeed and hueRange (and satSeed and litSeed) out of the functions for color debug reasons so I could check what bits were being used to generate the pallets, and adjust bits as necessary. then I just thought it was cool to be able to see them whenever I wanted.
 let hueSeed = rand(0, 360);
 let hueRange = rand(1, 10);
 
 const generateHues = function () {
-
   if (hueRange == 1) {
     (h1 = hueSeed - 130),
     (h2 = hueSeed - 110),
@@ -87,184 +89,207 @@ const generateHues = function () {
   } //rainbow
 
   return h1, h2, h3, h4, h5;
-}; // the major types of palettes/color combos that humans find pleasing. (at least the ones i could easily fit into five colors, maybe someday i'll make an expanded version with more colors) i kinda guessed about the exact spreads, but they seem to work well.
+}; 
+// the major types of palettes/color combos that humans find pleasing. (at least the ones i could easily fit into five colors, maybe someday i'll make an expanded version with more colors) i kinda guessed about the exact spreads, but they seem to work well.
 
 const hueFix = function () {
-  if (h1 < 0) {h1 = h1 + 361;}
-  if (h1 > 360) {h1 = h1 - 361;}
-  if (h2 < 0) {h2 = h2 + 361;}
-  if (h2 > 360) {h2 = h2 - 361;}
-  if (h4 < 0) {h4 = h4 + 361;}
-  if (h4 > 360) {h4 = h4 - 361;}
-  if (h5 < 0) {h5 = h5 + 361;}
-  if (h5 > 360) {h5 = h5 - 361;}
+  if (h1 < 0) {
+    h1 = h1 + 361;
+  }
+  if (h1 > 360) {
+    h1 = h1 - 361;
+  }
+  if (h2 < 0) {
+    h2 = h2 + 361;
+  }
+  if (h2 > 360) {
+    h2 = h2 - 361;
+  }
+  if (h4 < 0) {
+    h4 = h4 + 361;
+  }
+  if (h4 > 360) {
+    h4 = h4 - 361;
+  }
+  if (h5 < 0) {
+    h5 = h5 + 361;
+  }
+  if (h5 > 360) {
+    h5 = h5 - 361;
+  }
   return h1, h2, h4, h5;
 }; //I'm sure there is a better way to do this, but the color wheel is, well, a wheel, so can't go above 360 or below zero... it doesn't stop either, but just keeps going around starting over again at the beginning, or the end depending on the direction, so I had to add a little bit of math to fudge that in.
 
-let sata = 0, satb = 0, satc = 0, satd = 0, sate = 0;
+let sata = 0,
+  satb = 0,
+  satc = 0,
+  satd = 0,
+  sate = 0;
 
 const satSeed = rand(1, 22);
 //a bunch of saturation ranges/combos that I thought looked cool together. might expend it at some point.
 const genrateSaturations = function () {
- 
-  if ((satSeed == 1)) {
+  if (satSeed == 1) {
     (sata = 95), (satb = 95), (satc = 95), (satd = 95), (sate = 95);
   }
-  if ((satSeed == 2)) {
+  if (satSeed == 2) {
     (sata = 75), (satb = 75), (satc = 75), (satd = 75), (sate = 75);
   }
-  if ((satSeed == 3)) {
+  if (satSeed == 3) {
     (sata = 66), (satb = 66), (satc = 66), (satd = 66), (sate = 66);
   }
-  if ((satSeed == 4)) {
+  if (satSeed == 4) {
     (sata = 50), (satb = 50), (satc = 50), (satd = 50), (sate = 50);
   }
-  if ((satSeed == 5)) {
+  if (satSeed == 5) {
     (sata = 40), (satb = 40), (satc = 40), (satd = 40), (sate = 40);
   }
-  if ((satSeed == 6)) {
+  if (satSeed == 6) {
     (sata = 25), (satb = 25), (satc = 25), (satd = 25), (sate = 25);
   }
-  if ((satSeed == 7)) {
+  if (satSeed == 7) {
     (sata = 30), (satb = 40), (satc = 50), (satd = 60), (sate = 70);
   }
-  if ((satSeed == 8)) {
+  if (satSeed == 8) {
     (sata = 70), (satb = 60), (satc = 50), (satd = 40), (sate = 30);
   }
-  if ((satSeed == 9)) {
+  if (satSeed == 9) {
     (sata = 30), (satb = 50), (satc = 75), (satd = 50), (sate = 30);
   }
-  if ((satSeed == 10)) {
+  if (satSeed == 10) {
     (sata = 30), (satb = 75), (satc = 50), (satd = 75), (sate = 30);
   }
-  if ((satSeed == 11)) {
+  if (satSeed == 11) {
     (sata = 50), (satb = 75), (satc = 30), (satd = 75), (sate = 50);
   }
-  if ((satSeed == 12)) {
+  if (satSeed == 12) {
     (sata = 50), (satb = 30), (satc = 75), (satd = 30), (sate = 50);
   }
-  if ((satSeed == 13)) {
+  if (satSeed == 13) {
     (sata = 75), (satb = 50), (satc = 30), (satd = 50), (sate = 75);
   }
-  if ((satSeed == 14)) {
+  if (satSeed == 14) {
     (sata = 75), (satb = 30), (satc = 50), (satd = 30), (sate = 75);
   }
-  if ((satSeed == 15)) {
+  if (satSeed == 15) {
     (sata = 95), (satb = 85), (satc = 75), (satd = 66), (sate = 55);
   }
-  if ((satSeed == 16)) {
+  if (satSeed == 16) {
     (sata = 55), (satb = 66), (satc = 75), (satd = 85), (sate = 95);
   }
-  if ((satSeed == 17)) {
+  if (satSeed == 17) {
     (sata = 75), (satb = 85), (satc = 95), (satd = 85), (sate = 75);
   }
-  if ((satSeed == 18)) {
+  if (satSeed == 18) {
     (sata = 75), (satb = 95), (satc = 85), (satd = 95), (sate = 75);
   }
-  if ((satSeed == 19)) {
+  if (satSeed == 19) {
     (sata = 85), (satb = 95), (satc = 75), (satd = 95), (sate = 85);
   }
-  if ((satSeed == 20)) {
+  if (satSeed == 20) {
     (sata = 85), (satb = 75), (satc = 95), (satd = 75), (sate = 85);
   }
-  if ((satSeed == 21)) {
+  if (satSeed == 21) {
     (sata = 95), (satb = 85), (satc = 75), (satd = 85), (sate = 95);
   }
-  if ((satSeed == 22)) {
+  if (satSeed == 22) {
     (sata = 95), (satb = 75), (satc = 85), (satd = 75), (sate = 95);
   }
 
   return sata, satb, satc, satd, sate;
 };
 
-let lita = 0, litb = 0, litc = 0, litd = 0, lite = 0;
+let lita = 0,
+  litb = 0,
+  litc = 0,
+  litd = 0,
+  lite = 0;
 
 const litSeed = rand(1, 28);
-//ditto for the lightnesses. 
+//ditto for the lightnesses.
 const genrateLightnesses = function () {
- 
-  if ((litSeed == 1)) {
+  if (litSeed == 1) {
     (lita = 85), (litb = 85), (litc = 85), (litd = 85), (lite = 85);
   }
-  if ((litSeed == 2)) {
+  if (litSeed == 2) {
     (lita = 75), (litb = 75), (litc = 75), (litd = 75), (lite = 75);
   }
-  if ((litSeed == 3)) {
+  if (litSeed == 3) {
     (lita = 66), (litb = 66), (litc = 66), (litd = 66), (lite = 66);
   }
-  if ((litSeed == 4)) {
+  if (litSeed == 4) {
     (lita = 50), (litb = 50), (litc = 50), (litd = 50), (lite = 50);
   }
-  if ((litSeed == 5)) {
+  if (litSeed == 5) {
     (lita = 40), (litb = 40), (litc = 40), (litd = 40), (lite = 40);
   }
-  if ((litSeed == 6)) {
+  if (litSeed == 6) {
     (lita = 30), (litb = 30), (litc = 30), (litd = 30), (lite = 30);
   }
-  if ((litSeed == 7)) {
+  if (litSeed == 7) {
     (lita = 40), (litb = 50), (litc = 60), (litd = 70), (lite = 80);
   }
-  if ((litSeed == 8)) {
+  if (litSeed == 8) {
     (lita = 80), (litb = 70), (litc = 60), (litd = 50), (lite = 40);
   }
-  if ((litSeed == 9)) {
+  if (litSeed == 9) {
     (lita = 80), (litb = 66), (litc = 50), (litd = 66), (lite = 80);
   }
-  if ((litSeed == 10)) {
+  if (litSeed == 10) {
     (lita = 80), (litb = 50), (litc = 66), (litd = 50), (lite = 80);
   }
-  if ((litSeed == 11)) {
+  if (litSeed == 11) {
     (lita = 66), (litb = 80), (litc = 50), (litd = 80), (lite = 66);
   }
-  if ((litSeed == 12)) {
+  if (litSeed == 12) {
     (lita = 66), (litb = 50), (litc = 80), (litd = 50), (lite = 66);
   }
-  if ((litSeed == 13)) {
+  if (litSeed == 13) {
     (lita = 50), (litb = 66), (litc = 80), (litd = 66), (lite = 50);
   }
-  if ((litSeed == 14)) {
+  if (litSeed == 14) {
     (lita = 50), (litb = 80), (litc = 66), (litd = 80), (lite = 50);
   }
-  if ((litSeed == 15)) {
+  if (litSeed == 15) {
     (lita = 20), (litb = 30), (litc = 40), (litd = 50), (lite = 60);
   }
-  if ((litSeed == 16)) {
+  if (litSeed == 16) {
     (lita = 60), (litb = 50), (litc = 40), (litd = 30), (lite = 20);
   }
-  if ((litSeed == 17)) {
+  if (litSeed == 17) {
     (lita = 30), (litb = 40), (litc = 50), (litd = 40), (lite = 30);
   }
-  if ((litSeed == 18)) {
+  if (litSeed == 18) {
     (lita = 30), (litb = 50), (litc = 40), (litd = 50), (lite = 30);
   }
-  if ((litSeed == 19)) {
+  if (litSeed == 19) {
     (lita = 40), (litb = 50), (litc = 30), (litd = 50), (lite = 40);
   }
-  if ((litSeed == 20)) {
+  if (litSeed == 20) {
     (lita = 40), (litb = 30), (litc = 50), (litd = 30), (lite = 40);
   }
-  if ((litSeed == 21)) {
+  if (litSeed == 21) {
     (lita = 50), (litb = 40), (litc = 30), (litd = 40), (lite = 50);
   }
-  if ((litSeed == 22)) {
+  if (litSeed == 22) {
     (lita = 50), (litb = 30), (litc = 40), (litd = 30), (lite = 50);
   }
-  if ((litSeed == 23)) {
+  if (litSeed == 23) {
     (lita = 40), (litb = 50), (litc = 60), (litd = 50), (lite = 40);
   }
-  if ((litSeed == 24)) {
+  if (litSeed == 24) {
     (lita = 40), (litb = 60), (litc = 50), (litd = 60), (lite = 40);
   }
-  if ((litSeed == 25)) {
+  if (litSeed == 25) {
     (lita = 50), (litb = 40), (litc = 60), (litd = 40), (lite = 50);
   }
-  if ((litSeed == 26)) {
+  if (litSeed == 26) {
     (lita = 50), (litb = 60), (litc = 40), (litd = 60), (lite = 50);
   }
-  if ((litSeed == 27)) {
+  if (litSeed == 27) {
     (lita = 60), (litb = 50), (litc = 40), (litd = 50), (lite = 60);
   }
-  if ((litSeed == 28)) {
+  if (litSeed == 28) {
     (lita = 60), (litb = 40), (litc = 50), (litd = 40), (lite = 60);
   }
 
@@ -291,144 +316,59 @@ const hslToHex = function (h, s, l) {
   return `#${f(0)}${f(8)}${f(4)}`;
 };
 
-let hexCola = hslToHex(h1, sata, lita), 
-    hexColb = hslToHex(h2, satb, litb), 
-    hexColc = hslToHex(h3, satc, litc), 
-    hexCold = hslToHex(h4, satd, litd), 
-    hexCole = hslToHex(h5, sate, lite);
+let hexCola = hslToHex(h1, sata, lita),
+  hexColb = hslToHex(h2, satb, litb),
+  hexColc = hslToHex(h3, satc, litc),
+  hexCold = hslToHex(h4, satd, litd),
+  hexCole = hslToHex(h5, sate, lite);
 
 //but!!! when I was displaying the colors, i needed to be able to adjust the text color for better contrast, so I could, you know, read it. i stole this code directly from a color palette generator on perchance: https://perchance.org/pixel-art-palettes
 const hexToRgb = function (hex) {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return {
     r: parseInt(result[1], 16),
     g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16)
-  }
+    b: parseInt(result[3], 16),
+  };
 };
 
 const rgbToStr = function (rgb) {
-  return rgb["r"] + " " + rgb["g"] + " " + rgb["b"]
+  return rgb["r"] + " " + rgb["g"] + " " + rgb["b"];
 };
 
 const getContrastingColor = function (rgb) {
-  return (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000 > 125 ? 'black' : 'white'
+  return (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000 > 125
+    ? "black"
+    : "white";
 };
 
-let hexColaContrast = getContrastingColor(hexToRgb(hexCola)), 
-    hexColbContrast = getContrastingColor(hexToRgb(hexColb)), 
-    hexColcContrast = getContrastingColor(hexToRgb(hexColc)), 
-    hexColdContrast = getContrastingColor(hexToRgb(hexCold)), 
-    hexColeContrast = getContrastingColor(hexToRgb(hexCole));
+let hexColaContrast = getContrastingColor(hexToRgb(hexCola)),
+  hexColbContrast = getContrastingColor(hexToRgb(hexColb)),
+  hexColcContrast = getContrastingColor(hexToRgb(hexColc)),
+  hexColdContrast = getContrastingColor(hexToRgb(hexCold)),
+  hexColeContrast = getContrastingColor(hexToRgb(hexCole));
 
-let altText = `a block of five color swatches with Hex values of ${hexCola}, ${hexColb}, ${hexColc}, ${hexCold}, and ${hexCole}`; //and of course we gotta write a good alt text, accessibility is important.
+let altText = `a block of five color swatches with Hex values of ${hexCola}, ${hexColb}, ${hexColc}, ${hexCold}, and ${hexCole}`; 
+//and of course we gotta write a good alt text, accessibility is important.
 
-// the <div> and <svg> tables are from the generator's website, just figured i would leave them in, because what the heck.
+console.log("🎲 Rollin' dice & makin' colors! 🌈"); 
+//i love shiny click clack rocks, even when they are all just ones and zeros <3
 
-//let vertPaletteTable = `<div id="vertPalette" role="img" aria-label="${altText}" style="width:250px;height:200px;display:inline-block;text-align:center;font-family:Trebuchet MS;"><title>${altText}</title><div style="width:50px;height:200px;display:inline-block;background-color:${hexCola};color:${hexColaContrast};padding: 5px 0;font-size:0.7em;">${hexCola}</div><div style="width:50px;height:200px;display:inline-block;background-color:${hexColb};color:${hexColbContrast};padding: 5px 0;font-size:0.7em;">${hexColb}</div><div style="width:50px;height:200px;display:inline-block;background-color: ${hexColc};color:${hexColcContrast};padding: 5px 0;font-size:0.7em;"> ${hexColc}</div><div style="width:50px;height:200px;display:inline-block;background-color:${hexCold};color:${hexColdContrast};padding: 5px 0;font-size:0.7em;">${hexCold}</div><div style="width:50px;height:200px;display:inline-block;background-color:${hexCole};color:${hexColeContrast};padding: 5px 0;font-size:0.7em;">${hexCole}</div></div>`;
+console.log(
+  `🎨 hueSeed:${hueSeed}, hueRange:${hueRange}, satSeed:${satSeed} litSeed:${litSeed} 🖌`
+); 
+//debug stuff, and it's just cool to know and be able to look if I want to see how a particular palette was made.
 
-//let horizPaletteTable = `<div id="horizPalette" role="img" aria-label="${altText}" style="width:200px;height:150px;display:inline-block;text-align:center;font-family:Trebuchet MS;" ><title>${altText}</title><div style="box-sizing:border-box;height:30px;width:200px;background-color:${hexCola};color:${hexColaContrast};padding:5px 0;">${hexCola}</div><div style="box-sizing:border-box;height:30px;width:200px;background-color:${hexColb};color:${hexColbContrast};padding:5px 0;">${hexColb}</div><div style="box-sizing:border-box; height:30px;width:200px;background-color:${hexColc};color:${hexColcContrast};padding:5px 0;">${hexColc}</div><div style="box-sizing:border-box; height:30px;width:200px;background-color:${hexCold};color:${hexColdContrast};padding:5px 0;">${hexCold}</div><div style="box-sizing:border-box;height:30px;width:200px;background-color:${hexCole};color:$${hexColeContrast};padding:5px 0;">${hexCole}</div></div>`;
-
-//let imageTable = `<div id="horizPalette" role="img" aria-label="${altText}" style="width:200px;height:150px;display:inline-block;font-family:Trebuchet MS;"><title>${altText}</title><div><div></div></div></div>`;
-
-//let svgTable = `<svg width="250px" height="200px"  xmlns="http://www.w3.org/2000/svg" aria-label="${altText}"><title>${altText}</title><rect x="0px" y="0"  width="50px" height="200px" fill="${hexCola}" /><rect x="50px" y="0"  width="50px" height="200px" fill="${hexColb}" /><rect x="100px" y="0"  width="50px" height="200px" fill="${hexColc}" /><rect x="150px" y="0"  width="50px" height="200px" fill="${hexCold}" /><rect x="200px" y="0"  width="50px" height="200px" fill="${hexCole}" /></svg>`;
-
-//document.getElementById("vertPaletteSpot").innerHTML = vertPaletteTable;
-//document.getElementById("horizPaletteSpot").innerHTML = horizPaletteTable;
-//document.getElementById("imageSpot").innerHTML = imageTable;
-
-//const btnNew = document.getElementById("new");
-//btnNew.addEventListener("click", function () { { window.location.reload() } });
-//const btnHoriz = document.getElementById("makeHorizImg");
-//btnHoriz.addEventListener("click", function () { { makeHorizPaletteImg() } });
-//const btnVert = document.getElementById("makeVertImg");
-//btnVert.addEventListener("click", function () { { makeVertPaletteImg() } });
-
-
-//dom-to-image left in also, i used it to convert the <div> tables to something people could click on and save, because I had the website create a new palette every time it refreshed so needed a way for people to selectively generate images to save the palettes they liked without having to take screenshots all the time.
-
-//let domtoimage = require("dom-to-image");//  https://github.com/tsayen/dom-to-image (<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.js" integrity="sha512-wUa0ktp10dgVVhWdRVfcUO4vHS0ryT42WOEcXjVVF2+2rcYBKTY7Yx7JCEzjWgPV+rj2EDUr8TwsoWF6IoIOPg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>)
-
-const makeVertPaletteImg = function () {
-  let node = document.getElementById("vertPalette");
-  let scale = 500 / node.offsetWidth;
-  domtoimage.toPng(node, {
-    height: node.offsetHeight * scale,
-    width: node.offsetWidth * scale,
-    style: {
-      transform: "scale(" + scale + ")",
-      transformOrigin: "top left",
-      width: node.offsetWidth + "px",
-      height: node.offsetHeight + "px",
-    },
-  })
-
-    .then(function (dataUrl) {
-      let vertPaletteImg = new Image();
-      vertPaletteImg.setAttribute("height", 160);
-      vertPaletteImg.setAttribute("width", 200);
-      vertPaletteImg.src = dataUrl;
-      vertPaletteImg.alt = `${altText}`;
-      const divdoc = document.getElementById("showImage");
-      if (divdoc.hasChildNodes()) {
-        divdoc.removeChild(divdoc.lastChild);
-      }
-      divdoc.body.appendChild(vertPaletteImg);
-
-    });
+module.exports = {
+  hexCola,
+  hexColb,
+  hexColc,
+  hexCold,
+  hexCole,
+  hexColaContrast,
+  hexColbContrast,
+  hexColcContrast,
+  hexColdContrast,
+  hexColeContrast,
+  altText,
 };
-
-const makeHorizPaletteImg = function () {
-  let node = document.getElementById("horizPalette");
-  let scale = 500 / node.offsetWidth;
-  domtoimage.toPng(node, {
-    height: node.offsetHeight * scale,
-    width: node.offsetWidth * scale,
-    style: {
-      transform: "scale(" + scale + ")",
-      transformOrigin: "top left",
-      width: node.offsetWidth + "px",
-      height: node.offsetHeight + "px",
-    },
-  })
-
-    .then(function (dataUrl) {
-      let horizPaletteImg = new Image();
-      horizPaletteImg.setAttribute("height", 160);
-      horizPaletteImg.setAttribute("width", 200);
-      horizPaletteImg.src = dataUrl;
-      horizPaletteImg.alt = `${altText}`;
-      const divdoc = document.getElementById("showImage");
-      if (divdoc.hasChildNodes()) {
-        divdoc.removeChild(divdoc.lastChild);
-      }
-      divdoc.body.appendChild(horizPaletteImg);
-
-    });
-};
-
-const makesSvgImg = function() {//https://www.sitelint.com/blog/convert-svg-to-png-jpeg-or-webp-image-using-javascript-in-the-browser
-  const svgBlob = new Blob([svgstring], {type: 'image/svg+xml'});
-  const svgObjectUrl = globalThis.URL.createObjectURL(svgBlob);
-  const img = document.createElement('img');
-  const onImageLoaded = () => {
-  const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
-  const createdImage = document.createElement('img');
-  canvas.setAttribute('width', 250);
-  canvas.setAttribute('height', 200);
-  context.drawImage(img, 0, 0);
-  createdImage.src = canvas.toDataURL('image/png');
-  };
-  img.addEventListener('load', onImageLoaded);
-  img.src = svgObjectUrl;
-  return '<a href="${svgObjectUrl}" target="_blank" rel="noopener noreferrer"><img src="${svgObjectUrl}"alt="${alitText}"></a>'
-};
-//the original idea for the bot was to make an image from the SVG table since it didn't need outside script, and I could make and actual image and download link from it, which i couldn't figure out how to do with dom-to-image within the Perchance framework. but it turned out that that didn't work with the way the RSS was picking up the original generator. which is what started me on this whole journey of learning "proper" JavaScript (over just the Perchance based code) and making a real bot controlled all by me instead of relying on third party aggregators.
-
-
-console.log("🎲 Rollin' dice & makin' colors! 🌈"); //i love shiny click clack rocks, even when they are all just ones and zeros <3
-
-console.log(`🎨 hueSeed:${hueSeed}, hueRange:${hueRange}, satSeed:${satSeed} litSeed:${litSeed} 🖌`); //debug stuff, and it's just cool to know and be able to look if I want to see how a particular palette was made.
-
-module.exports = {hexCola,hexColb,hexColc,hexCold,hexCole,hexColaContrast,hexColbContrast,hexColcContrast,hexColdContrast,hexColeContrast, altText}
