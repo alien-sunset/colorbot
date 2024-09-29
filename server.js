@@ -106,19 +106,13 @@ const botScript = async () => {
     console.log("🌟 everything went well in creating the image! 💪");
   });
   let ajective = randomFromArray(ajectivesPos);
-  const statusText = `${indefinite(
-    ajective
-  )} new palette, just for you: #color #ColorPalette`;
+  const statusText = `${indefinite(ajective)} new palette, for everyone: #color #ColorPalette`;
   const imageDescription = `a block of five color swatches with Hex values of ${palette.hexCola}, ${palette.hexColb}, ${palette.hexColc}, ${palette.hexCold}, and ${palette.hexCole}.`;
 
   return sendImageToMastodon(drawPaletteFilePath, imageDescription, statusText)
     .then(() => {
       console.log(
-        `🤞 Hopefully, we've sent a canvas with the following colors: ${
-          palette.hexCola
-        }, ${palette.hexColb} ${palette.hexColc}, ${palette.hexCold}, and ${
-          palette.hexCole
-        } at ${new Date().toTimeString()}`
+        `🤞 Hopefully, we've sent a canvas with the following colors: ${palette.hexCola}, ${palette.hexColb}, ${palette.hexColc}, ${palette.hexCold}, and ${palette.hexCole} at ${new Date().toTimeString()}`
       );
       delete require.cache[require.resolve("./bits/ajectives-pos.js")];
       delete require.cache[require.resolve("./bits/random-from-array.js")];
