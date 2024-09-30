@@ -3,28 +3,22 @@
    "how to change link color." */
 
 
-a:link {
-    color: #672263
+   a:link {
+    color: #68055E
 }
 
 a:visited {
-    color: #885107
+    color: #562D03
 }
 
 h1 {
-    color: #146962;
+    color: #52FAD1;
     font-size: 2.25em;
     line-height: .75;
 }
 
-h4 {
-    color: #421C55;
-    font-size: 1.25em;
-    line-height: .5;
-}
-
 p {
-    color: #280527;
+    color: #290340;
     font-size: 1em;
     line-height: 1.75;
 }
