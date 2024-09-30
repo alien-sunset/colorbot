@@ -35,8 +35,8 @@ function sleep(ms) {
 }
 
 const masto = new Mastodon({
-  client_key: process.env.CLIENT_KEY,
-  access_token: process.env.MASTODON_TEST_TOKEN,
+  client_key: process.env.COLORBOT_CLIENT_KEY,
+  access_token: process.env.COLORBOT_TOKEN,
   api_url: process.env.BOTSINSPACE_API_URL,
 });
 

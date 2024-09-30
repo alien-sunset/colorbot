@@ -4,19 +4,19 @@ require("dotenv").config();
 const fs = require("fs");
 const Mastodon = require("mastodon-api");
 
-const MASTODON_TEST_TOKEN = process.env.MASTODON_TEST_TOKEN,
-  BOTSINSPACE_API_URL = "https://botsin.space/api/v1/",
-  CLIENT_KEY = process.env.CLIENT_KEY;
+const token = process.env.COLORBOT_TOKEN,
+  api = process.env.BOTSINSPACE_API_URL,
+  key = process.env.COLORBOT_CLIENT_KEY;
 
-if (!MASTODON_TEST_TOKEN || !BOTSINSPACE_API_URL) {
+if (!token || !api) {
   console.error("Missing environment variables from Mastodon.");
   process.exit(1);
 }
 
 const mastodonClient = new Mastodon({
-  access_token: MASTODON_TEST_TOKEN,
+  access_token: token,
   timeout_ms: 60 * 1000, // optional HTTP request timeout to apply to all requests.
-  api_url: BOTSINSPACE_API_URL,
+  api_url: api,
 });
 
 function sendCanvasToMastodon(canvasBuffer, imageDescription, text) {
