@@ -19,3 +19,5 @@
 🤞 Hopefully, we've sent a canvas with the following colors: #70e56c, #55aa6f, #b3e6d3, #aa5582, and #e56c84 at 08:29:04 GMT-0400 (Eastern Daylight Time)
 "🕰 at the tone the time will be: 08:30:00 GMT-0400 (Eastern Daylight Time)...BEEEEEEEEP! 🔔"
 "🕰 at the tone the time will be: 09:00:00 GMT-0400 (Eastern Daylight Time)...BEEEEEEEEP! 🔔"
+"🕰 at the tone the time will be: 09:30:00 GMT-0400 (Eastern Daylight Time)...BEEEEEEEEP! 🔔"
+"🕰 at the tone the time will be: 10:00:00 GMT-0400 (Eastern Daylight Time)...BEEEEEEEEP! 🔔"
