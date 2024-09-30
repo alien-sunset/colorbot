@@ -1,0 +1,8 @@
+Hello! 
+and Welcome!
+
+this bot started as a vague idea, and then grew into a week's worth of spite fueled hyperfocus when someone told me it would be too difficult to do.
+
+I started out with very little knowledge, and I'm still learning. I think there is a lot that could be done to improve the bot, including finding a better way to generate and post pallets, but at the moment I am DONE.
+
+Please enjoy, and if you have any questions or comments, feel free to reach out!

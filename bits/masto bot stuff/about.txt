@@ -1,0 +1,17 @@
+Posting semi random, procedurally generated color palettes every six hours/three times a day, because color is cool. 
+
+tag the bot for a personal palette.
+
+Posts deleted after two weeks.
+
+A huge thank you to @boodoo@mastodon.social and @stefan@stefanbohacek.online without whom this bot would not be possible. Seriously they rock. 
+Learn about creative botmaking on https://botwiki.org.
+
+the generator:
+    https://alien-sunset.neocities.org/colorbot
+
+made by:
+    @Alien_Sunset@dice.camp
+
+source
+    https://github.com/alien-sunset/colorbot

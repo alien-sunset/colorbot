@@ -1,0 +1,12 @@
+Alrighty folx, 
+
+the bot is now in it's final(?) form!
+
+I've tweaked the palette generation parameters for a little more consistency and variety, and am now able to run it on my computer instead of using rss and janky third party stuff. 
+And best of all, Alt text should be automatically applied! Yay!
+
+I'm sure the code's a mess - I'm still learning and all, but this was a ton of fun.
+
+If you notice any weirdness, or have any questions or comments, feel free to reach out!
+
+Thanks! & Enjoy!

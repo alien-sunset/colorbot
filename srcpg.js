@@ -433,7 +433,7 @@ console.log("🎲 Rollin' dice & makin' colors! 🌈");
 //i love shiny click clack rocks, even when they are all just ones and zeros <3
 
 console.log(
-  `🎨 hueSeed:${hueSeed}, hueRange:${hueRange}, satSeed:${satSeed} litSeed:${litSeed} 🖌`
+  `🎨 hueSeed:${hueSeed}, hueRange:${hueRange}, satSeed:${satSeed} litSeed:${litSeed}`
 ); 
 //debug stuff, and it's just cool to know and be able to look if I want to see how a particular palette was made.
 

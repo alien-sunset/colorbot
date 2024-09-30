@@ -3,7 +3,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-app.use(express.static("paletts"));
+app.use(express.static("palettes"));
 const util = require("util");
 const cron = require("node-cron");
 const fs = require("graceful-fs");
@@ -43,19 +43,19 @@ const masto = new Mastodon({
 const botScript = async () => {
   let palette = require("./srcpg.js");
   const drawPaletteFileName = "draw-palette.png";
-  const drawPaletteFilePath = __dirname + "/paletts/" + drawPaletteFileName;
+  const drawPaletteFilePath = __dirname + "/palettes/" + drawPaletteFileName;
 
-  const canvasHeight = 750;
-  const canvasWidth = 1000,
+  const canvasHeight = 500;
+  const canvasWidth = 666,
     colHeight = canvasHeight / 5,
-    ystart = 150,
-    labelIndent = 333,
-    textTop = 30;
+    ystart = canvasHeight / 5,
+    labelIndent = canvasWidth / 2.9,
+    textTop = ystart / 5.5;
   const canvas = Canvas.createCanvas(canvasWidth, canvasHeight);
   const ctx = canvas.getContext("2d");
   const backgroundColor = "#FFFFFF";
 
-  console.log("🖍 let's make a palette and then label it! ✏");
+  console.log("🖍 let's draw a palette and then label it!");
 
   ctx.fillStyle = backgroundColor;
   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -66,35 +66,35 @@ const botScript = async () => {
   ctx.fillRect(0, ystart * 0, canvasWidth, colHeight);
 
   ctx.fillStyle = palette.hexColaContrast;
-  ctx.font = "80px Trebuchet MS";
+  ctx.font = "57px Trebuchet MS";
   ctx.fillText(palette.hexCola, labelIndent, ystart * 0 + textTop);
 
   ctx.fillStyle = palette.hexColb;
   ctx.fillRect(0, ystart * 1, canvasWidth, colHeight);
 
   ctx.fillStyle = palette.hexColbContrast;
-  ctx.font = "80px Trebuchet MS";
+  ctx.font = "57px Trebuchet MS";
   ctx.fillText(palette.hexColb, labelIndent, ystart * 1 + textTop);
 
   ctx.fillStyle = palette.hexColc;
   ctx.fillRect(0, ystart * 2, canvasWidth, colHeight);
 
   ctx.fillStyle = palette.hexColcContrast;
-  ctx.font = "80px Trebuchet MS";
+  ctx.font = "57px Trebuchet MS";
   ctx.fillText(palette.hexColc, labelIndent, ystart * 2 + textTop);
 
   ctx.fillStyle = palette.hexCold;
   ctx.fillRect(0, ystart * 3, canvasWidth, colHeight);
 
   ctx.fillStyle = palette.hexColdContrast;
-  ctx.font = "80px Trebuchet MS";
+  ctx.font = "57px Trebuchet MS";
   ctx.fillText(palette.hexCold, labelIndent, ystart * 3 + textTop);
 
   ctx.fillStyle = palette.hexCole;
   ctx.fillRect(0, ystart * 4, canvasWidth, colHeight);
 
   ctx.fillStyle = palette.hexColeContrast;
-  ctx.font = "80px Trebuchet MS";
+  ctx.font = "57px Trebuchet MS";
   ctx.fillText(palette.hexCole, labelIndent, ystart * 4 + textTop);
 
   let canvasBuffer = canvas.toBuffer();
@@ -106,7 +106,7 @@ const botScript = async () => {
     console.log("🌟 everything went well in creating the image! 💪");
   });
   let ajective = randomFromArray(ajectivesPos);
-  const statusText = `${indefinite(ajective)} new palette, for everyone: #color #ColorPalette`;
+  const statusText = `${indefinite(ajective)} new palette for you to enjoy: #color #ColorPalette`;
   const imageDescription = `a block of five color swatches with Hex values of ${palette.hexCola}, ${palette.hexColb}, ${palette.hexColc}, ${palette.hexCold}, and ${palette.hexCole}.`;
 
   return sendImageToMastodon(drawPaletteFilePath, imageDescription, statusText)
@@ -126,20 +126,19 @@ const botScript = async () => {
 const replyBotScript = async (acct, id) => {
   let palette = require("./srcpg.js");
   const drawReplyPaletteFileName = "draw-reply-palette.png";
-  const drawReplyPaletteFilePath =
-    __dirname + "/paletts/" + drawReplyPaletteFileName;
+  const drawReplyPaletteFilePath = __dirname + "/palettes/" + drawReplyPaletteFileName;
 
-  const canvasHeight = 750;
-  const canvasWidth = 1000,
+  const canvasHeight = 500;
+  const canvasWidth = 666,
     colHeight = canvasHeight / 5,
-    ystart = 150,
-    labelIndent = 333,
-    textTop = 30;
+    ystart = canvasHeight / 5,
+    labelIndent = canvasWidth / 2.9,
+    textTop = ystart / 5.5;
   const canvas = Canvas.createCanvas(canvasWidth, canvasHeight);
   const ctx = canvas.getContext("2d");
   const backgroundColor = "#FFFFFF";
 
-  console.log("🖍 let's make a palette and then label it! ✏");
+  console.log("🖍 let's draw a palette and then label it!");
 
   ctx.fillStyle = backgroundColor;
   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -150,35 +149,35 @@ const replyBotScript = async (acct, id) => {
   ctx.fillRect(0, ystart * 0, canvasWidth, colHeight);
 
   ctx.fillStyle = palette.hexColaContrast;
-  ctx.font = "80px Trebuchet MS";
+  ctx.font = "57px Trebuchet MS";
   ctx.fillText(palette.hexCola, labelIndent, ystart * 0 + textTop);
 
   ctx.fillStyle = palette.hexColb;
   ctx.fillRect(0, ystart * 1, canvasWidth, colHeight);
 
   ctx.fillStyle = palette.hexColbContrast;
-  ctx.font = "80px Trebuchet MS";
+  ctx.font = "57px Trebuchet MS";
   ctx.fillText(palette.hexColb, labelIndent, ystart * 1 + textTop);
 
   ctx.fillStyle = palette.hexColc;
   ctx.fillRect(0, ystart * 2, canvasWidth, colHeight);
 
   ctx.fillStyle = palette.hexColcContrast;
-  ctx.font = "80px Trebuchet MS";
+  ctx.font = "57px Trebuchet MS";
   ctx.fillText(palette.hexColc, labelIndent, ystart * 2 + textTop);
 
   ctx.fillStyle = palette.hexCold;
   ctx.fillRect(0, ystart * 3, canvasWidth, colHeight);
 
   ctx.fillStyle = palette.hexColdContrast;
-  ctx.font = "80px Trebuchet MS";
+  ctx.font = "57px Trebuchet MS";
   ctx.fillText(palette.hexCold, labelIndent, ystart * 3 + textTop);
 
   ctx.fillStyle = palette.hexCole;
   ctx.fillRect(0, ystart * 4, canvasWidth, colHeight);
 
   ctx.fillStyle = palette.hexColeContrast;
-  ctx.font = "80px Trebuchet MS";
+  ctx.font = "57px Trebuchet MS";
   ctx.fillText(palette.hexCole, labelIndent, ystart * 4 + textTop);
 
   let canvasBuffer = canvas.toBuffer();
@@ -249,11 +248,11 @@ stream.on("message", (response) => {
 //schedule bits down here,
 cron.schedule("*/30 * * * *", () => {
   console.log(`"🕰 at the tone the time will be: ${new Date().toTimeString()}...BEEEEEEEEP! 🔔"`);
-});
+});//this is purely to let me know that things are still running properly at a glance
 
 cron.schedule("29 8 * * *", () => {
   console.log("🌄 time to make the morning donuts!");
-  botScript(); //8:30am
+  botScript(); //8:29am
 });
 
 cron.schedule("30 14 * * *", () => {
@@ -263,13 +262,12 @@ cron.schedule("30 14 * * *", () => {
 
 cron.schedule("31 20 * * *", () => {
   console.log("🌇 time to make the evening donuts!");
-  botScript(); //8:30pm
+  botScript(); //8:31pm
 });
 
-cron.schedule("30 2 * * *", () => {
-  console.log("🌕 time to make the late night donuts!");
-  botScript(); //2:30am
-});
+//cron.schedule("30 2 * * *", () => {
+//  console.log("🌕 time to make the late night donuts!");
+//  botScript(); //2:30am});
 
 //don't really know if I need these here, i've kinda spammed them everywhere, but better safe than sorry, i need to clear out the cache of variables otherwise the code just keeps reusing what it already made instead of generating new stuff each time it posts
 delete require.cache[require.resolve("./bits/ajectives-pos.js")];

@@ -28,10 +28,10 @@ harkening back to my TTRPG roots, it's all dice rolls, random tables, and math.
 
 3) Do the math to the seed hue to come up with the base colors for the palette.
 
-4) Randomly select from a table of over 20 saturation ranges/sets. 
+4) Randomly select from a table of over 30 saturation ranges/sets. 
 This is basically just a bunch saturation values that I kinda thought would go well together – either all five being the same, or cycling, or alternating, etc.  I may go in at some point and add more, but the number I have right now seems to give some good variety,
 
-5) Randomly select from a table of over 25 Lightness ranges/sets.
+5) Randomly select from a table of over 30 Lightness ranges/sets.
 Pretty much the same idea as the saturation lists.
 
 6) Combine everything together to a HSL value. Then convert that into a Hex value, because I prefer using Hex codes for most applications.

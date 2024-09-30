@@ -9,7 +9,7 @@ const MASTODON_TEST_TOKEN = process.env.MASTODON_TEST_TOKEN,
   CLIENT_KEY = process.env.CLIENT_KEY;
 
 if (!MASTODON_TEST_TOKEN || !BOTSINSPACE_API_URL) {
-  console.error("Missing environment variables from Mastodon. See README");
+  console.error("Missing environment variables from Mastodon.");
   process.exit(1);
 }
 
@@ -31,12 +31,7 @@ function sendImageToMastodon(imageFilePath, imageDescription, text) {
   });
 }
 
-function sendReplyImageToMastodon(
-  imageFilePath,
-  imageDescription,
-  text,
-  replyId
-) {
+function sendReplyImageToMastodon(imageFilePath, imageDescription, text, replyId) {
   return uploadImage(imageFilePath, imageDescription).then((imageId) => {
     createReplyStatus(imageId, text, replyId);
   });
