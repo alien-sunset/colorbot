@@ -1,6 +1,6 @@
 {
     "name": "srcpb",
-    "version": "0.1.0",
+    "version": "1.0",
     "description": "a bot that generates semi random, procedurally generated color palletes, and then posts them to Mastodon.",
     "main": "server.js",
     "scripts": {
