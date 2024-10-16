@@ -23,11 +23,16 @@ const ajectivesPos = require("./bits/ajectives-pos.js");
     fs.createWriteStream(`./logs/output${new Date().getTime()}.txt`)
   );
   let log_stdout = process.stdout;
+  let log_err = process.stderr;
   console.log = function (str) {
     myConsole.log(str);
     log_stdout.write(util.format(str) + "\n");
+  
   };
-})();
+  console.error = console.log;
+  console.warn = console.log;
+  console.info = console.log;
+  })();
 
 //relatedly, a little mini async doohickey to make log comment bits wait until the bits they are talking about are done before popping up, purely aesthetic, as any major issues will just throw an error anyways. grabbed from stack overflow, but can't find the exact page now.
 function sleep(ms) {
