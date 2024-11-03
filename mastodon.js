@@ -43,8 +43,11 @@ function createStatus(mediaIdStr, status) {
     return mastodonClient.post("statuses", params, (err, data, response) => {
       if (err) {
         console.log("oops");
-        return reject(err);
+        console.log(err);
       }
+      console.log(
+        `posted! to ${data.url} at ${new Date().toLocaleTimeString()} \n`
+      );
       return resolve();
     });
   });
@@ -59,9 +62,11 @@ function createReplyStatus(mediaIdStr, status, replyToId) {
     };
     return mastodonClient.post("statuses", params, (err, data, response) => {
       if (err) {
-        console.log("oops");
-        return reject(err);
+        console.log("oops", err);
       }
+      console.log(
+        `posted! to ${data.url} at ${new Date().toLocaleTimeString()} \n`
+      );
       return resolve();
     });
   });
@@ -73,13 +78,14 @@ function uploadImage(filePath, description) {
     return mastodonClient.post("media", params, (err, data, response) => {
       if (err) {
         console.log("aw, crap!");
-        return reject(err);
+        console.log(err);
       }
 
       if (!data.id) {
-        return reject("No media ID to use for toot");
+        console.log("No media ID to use for toot");
       }
 
+      console.log("Image data ID:");
       console.log(data.id);
 
       return resolve(data.id);

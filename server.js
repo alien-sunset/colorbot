@@ -8,6 +8,7 @@ const util = require("util");
 const cron = require("node-cron");
 const fs = require("graceful-fs");
 const Canvas = require("canvas");
+const { convert } = require("html-to-text");
 const Mastodon = require("mastodon-api");
 const {
   sendImageToMastodon,
@@ -117,7 +118,7 @@ const botScript = async () => {
   return sendImageToMastodon(drawPaletteFilePath, imageDescription, statusText)
     .then(() => {
       console.log(
-        `🤞 Hopefully, we've sent a canvas with the following colors: ${palette.hexCola}, ${palette.hexColb}, ${palette.hexColc}, ${palette.hexCold}, and ${palette.hexCole} at ${new Date().toTimeString()}`
+        `🤞 Hopefully, we've sent a canvas with the following colors: ${palette.hexCola}, ${palette.hexColb}, ${palette.hexColc}, ${palette.hexCold}, and ${palette.hexCole} \n`
       );
       delete require.cache[require.resolve("./bits/ajectives-pos.js")];
       delete require.cache[require.resolve("./bits/random-from-array.js")];
@@ -188,7 +189,7 @@ const replyBotScript = async (acct, id) => {
   let canvasBuffer = canvas.toBuffer();
   fs.writeFile(drawReplyPaletteFilePath, canvasBuffer, (err) => {
     if (err) {
-      return reject(err);
+      console.log(err);
     }
 
     console.log("🌟 everything went well in creating the image! 💪");
@@ -206,11 +207,7 @@ const replyBotScript = async (acct, id) => {
   )
     .then(() => {
       console.log(
-        `🤞 Hopefully, we've sent a canvas with the following colors: ${
-          palette.hexCola
-        }, ${palette.hexColb} ${palette.hexColc}, ${palette.hexCold}, and ${
-          palette.hexCole
-        } at ${new Date().toTimeString()}`
+        `🤞 Hopefully, we've sent a canvas with the following colors: ${palette.hexCola}, ${palette.hexColb} ${palette.hexColc}, ${palette.hexCold}, and ${palette.hexCole} \n`
       );
       delete require.cache[require.resolve("./bits/ajectives-pos.js")];
       delete require.cache[require.resolve("./bits/random-from-array.js")];
@@ -223,12 +220,13 @@ const replyBotScript = async (acct, id) => {
 
 const listener = app.listen(process.env.PORT, () => {
   console.log("📻 listening in on port " + listener.address().port);
-  console.log(`⏰ server time: ${new Date().toString()}`);
-  console.log("💖🧡💛💚💙💜");
+  console.log(`⏰ server time: ${new Date().toLocaleString()}`);
+  console.log(`💖🧡💛💚💙💜\n`);
 });
 //the listening bits confounds me, this works so I'm leaving it as is, most of this bit below I got from the CodingTrain's Mastodon bot tutorial videos/github (https://github.com/CodingTrain/Mastodon-Bot)
 const stream = masto.stream("streaming/user");
 console.log("📡 listening for super cool comments!");
+stream.on('error', err => console.log(err))
 stream.on("message", (response) => {
   if (response.event === "notification" && response.data.type === "mention") {
     const id = response.data.status.id;
@@ -239,34 +237,37 @@ stream.on("message", (response) => {
       JSON.stringify(response.data.status, null, 2)
     );
     sleep(1000).then(() => {
-      console.log(`"🎉 someone tagged us! 🎊"`);
+      const cOptions = { wordwrap: false };
+      console.log(`\n🎉 someone tagged us! 🎊\n`);
+      console.log(`${convert(content, cOptions)}\n`);
     });
     sleep(1000).then(() => {
       replyBotScript(acct, id);
     });
     sleep(5000).then(() => {
-      console.log("✨ ✨ ✨");
+      console.log(`✨ ✨ ✨ \n\n`);
     });
   }
 });
 
+
 //schedule bits down here,
 cron.schedule("*/30 * * * *", () => {
-  console.log(`"🕰 at the tone the time will be: ${new Date().toTimeString()}...BEEEEEEEEP! 🔔"`);
+  console.log(`"🕰 at the tone the time will be: ${new Date().toLocaleTimeString()}...BEEEEEEEEP! 🔔"`);
 });//this is purely to let me know that things are still running properly at a glance
 
 cron.schedule("29 8 * * *", () => {
-  console.log("🌄 time to make the morning donuts!");
+  console.log(`\n🌄 time to make the morning donuts!\n`);
   botScript(); //8:29am
 });
 
 cron.schedule("30 14 * * *", () => {
-  console.log("🌞 time to make the afternoon donuts!");
+  console.log(`\n🌞 time to make the afternoon donuts!\n`);
   botScript(); //2:30pm
 });
 
 cron.schedule("31 20 * * *", () => {
-  console.log("🌇 time to make the evening donuts!");
+  console.log(`\n🌇 time to make the evening donuts!\n`);
   botScript(); //8:31pm
 });
 
