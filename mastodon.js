@@ -4,9 +4,9 @@ require("dotenv").config();
 const fs = require("fs");
 const Mastodon = require("mastodon-api");
 
-const token = process.env.COLORBOT_TOKEN,
+const token = process.env.MASTODON_TEST_TOKEN,
   api = process.env.BOTSINSPACE_API_URL,
-  key = process.env.COLORBOT_CLIENT_KEY;
+  key = process.env.TEST_CLIENT_KEY;
 
 if (!token || !api) {
   console.error("Missing environment variables from Mastodon.");
@@ -45,9 +45,7 @@ function createStatus(mediaIdStr, status) {
         console.log("oops");
         console.log(err);
       }
-      console.log(
-        `posted! to ${data.url} at ${new Date().toLocaleTimeString()} \n`
-      );
+      console.log(`posted! to ${data.url} at ${new Date().toLocaleTimeString()} \n`);
       return resolve();
     });
   });
@@ -55,18 +53,13 @@ function createStatus(mediaIdStr, status) {
 
 function createReplyStatus(mediaIdStr, status, replyToId) {
   return new Promise((resolve, reject) => {
-    const params = {
-      status,
-      media_ids: [mediaIdStr],
-      in_reply_to_id: replyToId,
-    };
+    const params = { status, media_ids: [mediaIdStr], in_reply_to_id: replyToId };
     return mastodonClient.post("statuses", params, (err, data, response) => {
       if (err) {
-        console.log("oops", err);
+        console.log("oops");
+        console.log(err);
       }
-      console.log(
-        `posted! to ${data.url} at ${new Date().toLocaleTimeString()} \n`
-      );
+      console.log(`posted! to ${data.url} at ${new Date().toLocaleTimeString()} \n`);
       return resolve();
     });
   });
@@ -85,8 +78,7 @@ function uploadImage(filePath, description) {
         console.log("No media ID to use for toot");
       }
 
-      console.log("Image data ID:");
-      console.log(data.id);
+      console.log(`Image data ID: ${data.id}\n`);
 
       return resolve(data.id);
     });
@@ -116,6 +108,5 @@ function uploadCanvas(canvasBuffer, description) {
 
 module.exports = {
   sendImageToMastodon,
-  sendCanvasToMastodon,
   sendReplyImageToMastodon,
 };

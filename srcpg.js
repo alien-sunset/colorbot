@@ -1,3 +1,7 @@
+const fs = require("graceful-fs");
+const colornames = require("color-name-list");
+const nearestColor = require('nearest-color');
+
 // this is all probably terribly messy/inefficient. but it works for me.
 
 //ah get random! the heart of our generator, gotta love those dice rolls!
@@ -426,7 +430,19 @@ let hexColaContrast = getContrastingColor(hexToRgb(hexCola)),
   hexColdContrast = getContrastingColor(hexToRgb(hexCold)),
   hexColeContrast = getContrastingColor(hexToRgb(hexCole));
 
-let altText = `a block of five color swatches with Hex values of ${hexCola}, ${hexColb}, ${hexColc}, ${hexCold}, and ${hexCole}`; 
+
+const colors = colornames.reduce((o, { name, hex }) => Object.assign(o, { [name]: hex }), {});
+const nearest = nearestColor.from(colors);
+
+let nameCola = nearest(hexCola), 
+nameColb = nearest(hexColb), 
+nameColc = nearest(hexColc), 
+nameCold = nearest(hexCold), 
+nameCole = nearest(hexCole);
+
+
+
+let altText = `a block of five horizontal color swatches in ${nameCola.name} (${hexCola}), ${nameColb.name} (${hexColb}), ${nameColc.name} (${hexColc}), ${nameCold.name} (${hexCold}), and ${nameCole.name} (${hexCole})`; 
 //and of course we gotta write a good alt text, accessibility is important.
 
 console.log("🎲 Rollin' dice & makin' colors! 🌈"); 
@@ -435,9 +451,17 @@ console.log("🎲 Rollin' dice & makin' colors! 🌈");
 console.log(
   `🎨 hueSeed:${hueSeed}, hueRange:${hueRange}, satSeed:${satSeed} litSeed:${litSeed}`
 ); 
+
+console.log(altText);
 //debug stuff, and it's just cool to know and be able to look if I want to see how a particular palette was made.
 
+
 module.exports = {
+  nameCola,
+  nameColb,
+  nameColc,
+  nameCold,
+  nameCole,
   hexCola,
   hexColb,
   hexColc,
