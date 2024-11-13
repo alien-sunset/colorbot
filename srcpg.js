@@ -423,7 +423,7 @@ nameColb = nearest(hexColb),
 nameColc = nearest(hexColc), 
 nameCold = nearest(hexCold), 
 nameCole = nearest(hexCole);
-//adding color names was a thing i had toyed with at teh very beginning, but dismissed becaus at the time I was not aware of the amazing color name list and didn not think there would be enough name variety. this is now my favorite feature.  another huge thanks to Stefan for brining it to my attention.
+//adding color names was a thing i had toyed with at the very beginning, but dismissed because at the time I was not aware of the amazing color name list and did not think there would be enough name variety. this is now my favorite feature. another huge thanks to Stefan for bringing it to my attention.
 
 
 let altText = `a block of five horizontal color swatches in ${nameCola.name} (${hexCola}), ${nameColb.name} (${hexColb}), ${nameColc.name} (${hexColc}), ${nameCold.name} (${hexCold}), and ${nameCole.name} (${hexCole})`; 
