@@ -40,6 +40,8 @@ At this point I pretty much could have finished but I needed more fanciness.
 
 7) Take the hex codes, translate THOSE into RGB, then check against black or white for contrast values in order to make the identifying overlay text easily visible on the palette image. - this is kinda convoluted considering I already had the HSL and probably could have done it from there, but I was feeling really lazy at this point and pretty much just stole the code outright from another color palette generator on the Perchance website where I was originally building this bot. (https://perchance.org/pixel-art-palettes – it's pretty cool too, check it out)
 
+{edit} 7 1/2) added a fwe extra scripts so I can now add color names!  i had origionally planned this way back at the beginnign, but was unaware of the amazing color names list, and didn't thing there would be ebough variety of names to work with some palettes, especialy the monocromatic ones. but the colong names list has ALL THE NAMES!  thank you so much to Stefan for bringing it to my attention.
+
 8) Now it's just presentation, on the generator web site I made two tables to display the colors in both horizontal and vertical orientations with the hex code displayed over each color. A button to refresh the page to make a new palette, and two more buttons to convert the tables into images via Dom-to-Image so people can download the palettes if they want to save them. Spiffy.
 
 you can see the [completed generator website here](https://alien-sunset.neocities.org/colorbot)
@@ -58,3 +60,5 @@ So back to the coding grindstone I went:
 these bits were mostly put together with massive amounts of help from [@boodoo@mastodon.social](https://mastodon.social/@boodoo) / (https://github.com/BooDoo & https://cheapbotstootsweet.com/)  and [@stefan@stefanbohacek.online](https://stefanbohacek.online/@stefan) (https://github.com/stefanbohacek & https://botwiki.org/author/stefan/) who when I approached them for advice, both went out of their way to put together proof of concept projects on Glitch and sent me to several coding and example resources to look into. 
 
 A lot of these bits are probably REALLY messy, and I'm only really even 80% sure how it all works. But it does. There is more I which I could do with a few bits, and may go back later to see if I can tweak and perfect it. But at the moment I'm really happy with how its all working.  Now I just need to figure out how to host it somewhere ...
+
+{edit} i've cleaned teh code up a little, and i think i understand it a bit more, so things shoudl work a bit nicer now.  i've also added bluesky functionality as well!  which was especially hard, since the platform is so new there aren't a lot of botmakers on it, and not many people doing the things I wanted to do but i think it's working pretty well now, and overall i'm really please with the new colorbot 2.0.
