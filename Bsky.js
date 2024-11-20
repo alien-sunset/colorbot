@@ -67,7 +67,12 @@ async function getNotifications() {
   const out = []
   for (const notif of notifs.data.notifications) {
     if (notif.isRead) { continue; }
-    if (notif.reason == !'reply' || !'mention') { continue; }
+    if (notif.reason == 'like') { continue; }
+    if (notif.reason == 'follow') { continue; }
+    if (notif.reason == 'repost') { continue; }
+    if (notif.reason == 'quote') { continue; }
+    if (notif.reason == 'starterpack-joined') { continue; }
+    
     out.push(notif);
   }
   return out;

@@ -4,9 +4,9 @@ require("dotenv").config();
 const fs = require("fs");
 const Mastodon = require("mastodon-api");
 
-const token = process.env.MASTODON_TEST_TOKEN,
-  api = process.env.BOTSINSPACE_API_URL,
-  key = process.env.TEST_CLIENT_KEY;
+const token = process.env.COLORBOT_DOTART_TOKEN,
+  api = process.env.DOT_ART_API_URL,
+  key = process.env.COLORBOT_DOTART__CLIENT_KEY;
 
 if (!token || !api) {
   console.error("Missing environment variables from Mastodon.");

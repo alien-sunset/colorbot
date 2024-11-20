@@ -1,0 +1,14 @@
+const listener = app.listen(8080, () => {
+  console.log("📻 listening in on port " + listener.address().port);
+  console.log(`⏰ server time: ${new Date().toLocaleString()}`);
+  console.log(`💖🧡💛💚💙💜\n`);
+});
+
+
+
+app.use(express.static("paletts"));
+app.get("/", (req, res) => {
+  botScript();
+  const botLink = `<a href="https://botsin.space/@Color_Palette_Bot">@Color_Palette_Bot@botsin.space</a><img src="draw-palette.png" alt="" />`;
+  res.status(200).send(botLink);
+});
