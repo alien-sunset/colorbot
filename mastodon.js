@@ -56,8 +56,7 @@ function createReplyStatus(mediaIdStr, status, replyToId) {
     const params = { status, media_ids: [mediaIdStr], in_reply_to_id: replyToId };
     return mastodonClient.post("statuses", params, (err, data, response) => {
       if (err) {
-        console.log("oops");
-        console.log(err);
+        console.log(`oops: ${err}`);
       }
       console.log(`posted! to ${data.url} at ${new Date().toLocaleTimeString()} \n`);
       return resolve();
