@@ -71,13 +71,10 @@ const botScript = async () => {
     toTextCenter = rowHeight / 2;
     toTopTextCenter = (rowHeight / 7) * 2 ;
     toBottomTextCenter = (rowHeight / 3) * 2;
+    const canvas = Canvas.createCanvas(canvasWidth, canvasHeight);
+    const ctx = canvas.getContext("2d");
 
   console.log(`\n🖍 let's draw a palette and then label it!`);
-
-  ctx.fillStyle = backgroundColor;
-  ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-  ctx.textDrawingMode = "glyph";
-  ctx.textBaseline = "middle";
 
   ctx.fillStyle = palette.hexCola;
   ctx.fillRect(0, rowHeight * 0, canvasWidth, rowHeight);
@@ -169,13 +166,10 @@ const mastoReplyBotScript = async (acct, id) => {
     toTextCenter = rowHeight / 2;
     toTopTextCenter = (rowHeight / 7) * 2 ;
     toBottomTextCenter = (rowHeight / 3) * 2;
+    const canvas = Canvas.createCanvas(canvasWidth, canvasHeight);
+    const ctx = canvas.getContext("2d");
 
   console.log(`\n🖍 let's draw a palette and then label it!`);
-
-  ctx.fillStyle = backgroundColor;
-  ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-  ctx.textDrawingMode = "glyph";
-  ctx.textBaseline = "middle";
 
   ctx.fillStyle = palette.hexCola;
   ctx.fillRect(0, rowHeight * 0, canvasWidth, rowHeight);
@@ -261,73 +255,70 @@ const bskyReplyBotScript = async (replyRef) => {
 
     const canvasHeight = 500;
     const canvasWidth = 666,
-      rowHeight = canvasHeight / 5,
-      labelcenter = canvasWidth / 2,
-      toTextCenter = rowHeight / 2;
-      toTopTextCenter = (rowHeight / 7) * 2 ;
-      toBottomTextCenter = (rowHeight / 3) * 2;
-  
-    console.log(`\n🖍 let's draw a palette and then label it!`);
-  
-    ctx.fillStyle = backgroundColor;
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    ctx.textDrawingMode = "glyph";
-    ctx.textBaseline = "middle";
-  
-    ctx.fillStyle = palette.hexCola;
-    ctx.fillRect(0, rowHeight * 0, canvasWidth, rowHeight);
-  
-    ctx.fillStyle = palette.hexColaContrast;
-    ctx.font = "35px Trebuchet MS";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(`${palette.nameCola.name}`, labelcenter, rowHeight * 0 + toTopTextCenter);
-    ctx.font = "45px Trebuchet MS";
-    ctx.fillText(`${palette.hexCola}`, labelcenter, rowHeight * 0 + toBottomTextCenter);
-  
-    ctx.fillStyle = palette.hexColb;
-    ctx.fillRect(0, rowHeight * 1, canvasWidth, rowHeight);
-  
-    ctx.fillStyle = palette.hexColbContrast;
-    ctx.font = "35px Trebuchet MS";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(`${palette.nameColb.name}`, labelcenter, rowHeight * 1 + toTopTextCenter);
-    ctx.font = "45px Trebuchet MS";
-    ctx.fillText(`${palette.hexColb}`, labelcenter, rowHeight * 1 + toBottomTextCenter);
-  
-    ctx.fillStyle = palette.hexColc;
-    ctx.fillRect(0, rowHeight * 2, canvasWidth, rowHeight);
-  
-    ctx.fillStyle = palette.hexColcContrast;
-    ctx.font = "35px Trebuchet MS";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(`${palette.nameColc.name}`, labelcenter, rowHeight * 2 + toTopTextCenter);
-    ctx.font = "45px Trebuchet MS";
-    ctx.fillText(`${palette.hexColc}`, labelcenter, rowHeight * 2 + toBottomTextCenter);
-  
-    ctx.fillStyle = palette.hexCold;
-    ctx.fillRect(0, rowHeight * 3, canvasWidth, rowHeight);
-  
-    ctx.fillStyle = palette.hexColdContrast;
-    ctx.font = "35px Trebuchet MS";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(`${palette.nameCold.name}`, labelcenter, rowHeight * 3 + toTopTextCenter);
-    ctx.font = "45px Trebuchet MS";
-    ctx.fillText(`${palette.hexCold}`, labelcenter, rowHeight * 3 + toBottomTextCenter);
-  
-    ctx.fillStyle = palette.hexCole;
-    ctx.fillRect(0, rowHeight * 4, canvasWidth, rowHeight);
-  
-    ctx.fillStyle = palette.hexColeContrast;
-    ctx.font = "35px Trebuchet MS";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(`${palette.nameCole.name}`, labelcenter, rowHeight * 4 + toTopTextCenter);
-    ctx.font = "45px Trebuchet MS";
-    ctx.fillText(`${palette.hexCole}`, labelcenter, rowHeight * 4 + toBottomTextCenter);
+    rowHeight = canvasHeight / 5,
+    labelcenter = canvasWidth / 2,
+    toTextCenter = rowHeight / 2;
+    toTopTextCenter = (rowHeight / 7) * 2 ;
+    toBottomTextCenter = (rowHeight / 3) * 2;
+    const canvas = Canvas.createCanvas(canvasWidth, canvasHeight);
+    const ctx = canvas.getContext("2d");
+
+  console.log(`\n🖍 let's draw a palette and then label it!`);
+
+  ctx.fillStyle = palette.hexCola;
+  ctx.fillRect(0, rowHeight * 0, canvasWidth, rowHeight);
+
+  ctx.fillStyle = palette.hexColaContrast;
+  ctx.font = "35px Trebuchet MS";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(`${palette.nameCola.name}`, labelcenter, rowHeight * 0 + toTopTextCenter);
+  ctx.font = "45px Trebuchet MS";
+  ctx.fillText(`${palette.hexCola}`, labelcenter, rowHeight * 0 + toBottomTextCenter);
+
+  ctx.fillStyle = palette.hexColb;
+  ctx.fillRect(0, rowHeight * 1, canvasWidth, rowHeight);
+
+  ctx.fillStyle = palette.hexColbContrast;
+  ctx.font = "35px Trebuchet MS";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(`${palette.nameColb.name}`, labelcenter, rowHeight * 1 + toTopTextCenter);
+  ctx.font = "45px Trebuchet MS";
+  ctx.fillText(`${palette.hexColb}`, labelcenter, rowHeight * 1 + toBottomTextCenter);
+
+  ctx.fillStyle = palette.hexColc;
+  ctx.fillRect(0, rowHeight * 2, canvasWidth, rowHeight);
+
+  ctx.fillStyle = palette.hexColcContrast;
+  ctx.font = "35px Trebuchet MS";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(`${palette.nameColc.name}`, labelcenter, rowHeight * 2 + toTopTextCenter);
+  ctx.font = "45px Trebuchet MS";
+  ctx.fillText(`${palette.hexColc}`, labelcenter, rowHeight * 2 + toBottomTextCenter);
+
+  ctx.fillStyle = palette.hexCold;
+  ctx.fillRect(0, rowHeight * 3, canvasWidth, rowHeight);
+
+  ctx.fillStyle = palette.hexColdContrast;
+  ctx.font = "35px Trebuchet MS";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(`${palette.nameCold.name}`, labelcenter, rowHeight * 3 + toTopTextCenter);
+  ctx.font = "45px Trebuchet MS";
+  ctx.fillText(`${palette.hexCold}`, labelcenter, rowHeight * 3 + toBottomTextCenter);
+
+  ctx.fillStyle = palette.hexCole;
+  ctx.fillRect(0, rowHeight * 4, canvasWidth, rowHeight);
+
+  ctx.fillStyle = palette.hexColeContrast;
+  ctx.font = "35px Trebuchet MS";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(`${palette.nameCole.name}`, labelcenter, rowHeight * 4 + toTopTextCenter);
+  ctx.font = "45px Trebuchet MS";
+  ctx.fillText(`${palette.hexCole}`, labelcenter, rowHeight * 4 + toBottomTextCenter);
 
   const canvasBuffer = canvas.toBuffer();
   fs.writeFileSync(drawReplyPaletteFilePath, canvasBuffer, (err) => {
@@ -401,7 +392,7 @@ async function pollApi() {
       return bskyReplyBotScript(replyRef);
     }
   }
-  catch (error) { console.log(`Error: ${error}`) };
+  catch (error) { console.log(`listening Error: ${error}`) };
 };
 cron.schedule("*/5 * * * *", () => {
   pollApi();
