@@ -1,11 +1,15 @@
+const fs = require("graceful-fs");
+const colornames = require("color-name-list");
+const nearestColor = require('nearest-color');
+
 // this is all probably terribly messy/inefficient. but it works for me.
 
-//ah get random! the heart of our generator, gotta love those dice rolls!
+
 const rand = function getRandomIntInclusive(min, max) {
   const minCeiled = Math.ceil(min);
   const maxFloored = Math.floor(max);
   return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
-};
+};//ah get random! the heart of our generator, gotta love those dice rolls!
 
 let h1 = 0,
   h2 = 0,
@@ -89,34 +93,18 @@ const generateHues = function () {
   } //rainbow
 
   return h1, h2, h3, h4, h5;
-}; 
-// the major types of palettes/color combos that humans find pleasing. (at least the ones i could easily fit into five colors, maybe someday i'll make an expanded version with more colors) i kinda guessed about the exact spreads, but they seem to work well.
+}; // the major types of palettes/color combos that humans find pleasing. (at least the ones i could easily fit into five colors, maybe someday i'll make an expanded version with more colors) i kinda guessed about the exact spreads, but they seem to work well.
+
 
 const hueFix = function () {
-  if (h1 < 0) {
-    h1 = h1 + 361;
-  }
-  if (h1 > 360) {
-    h1 = h1 - 361;
-  }
-  if (h2 < 0) {
-    h2 = h2 + 361;
-  }
-  if (h2 > 360) {
-    h2 = h2 - 361;
-  }
-  if (h4 < 0) {
-    h4 = h4 + 361;
-  }
-  if (h4 > 360) {
-    h4 = h4 - 361;
-  }
-  if (h5 < 0) {
-    h5 = h5 + 361;
-  }
-  if (h5 > 360) {
-    h5 = h5 - 361;
-  }
+  if (h1 < 0) {h1 = h1 + 361;}
+  if (h1 > 360) {h1 = h1 - 361;}
+  if (h2 < 0) {h2 = h2 + 361;}
+  if (h2 > 360) {h2 = h2 - 361;}
+  if (h4 < 0) {h4 = h4 + 361;}
+  if (h4 > 360) {h4 = h4 - 361;}
+  if (h5 < 0) {h5 = h5 + 361;}
+  if (h5 > 360) {h5 = h5 - 361;}
   return h1, h2, h4, h5;
 }; //I'm sure there is a better way to do this, but the color wheel is, well, a wheel, so can't go above 360 or below zero... it doesn't stop either, but just keeps going around starting over again at the beginning, or the end depending on the direction, so I had to add a little bit of math to fudge that in.
 
@@ -426,7 +414,19 @@ let hexColaContrast = getContrastingColor(hexToRgb(hexCola)),
   hexColdContrast = getContrastingColor(hexToRgb(hexCold)),
   hexColeContrast = getContrastingColor(hexToRgb(hexCole));
 
-let altText = `a block of five color swatches with Hex values of ${hexCola}, ${hexColb}, ${hexColc}, ${hexCold}, and ${hexCole}`; 
+
+const colors = colornames.reduce((o, { name, hex }) => Object.assign(o, { [name]: hex }), {});
+const nearest = nearestColor.from(colors);
+
+let nameCola = nearest(hexCola), 
+nameColb = nearest(hexColb), 
+nameColc = nearest(hexColc), 
+nameCold = nearest(hexCold), 
+nameCole = nearest(hexCole);
+//adding color names was a thing i had toyed with at the very beginning, but dismissed because at the time I was not aware of the amazing color name list and did not think there would be enough name variety. this is now my favorite feature. another huge thanks to Stefan for bringing it to my attention.
+
+
+let altText = `a block of five horizontal color swatches in ${nameCola.name} (${hexCola}), ${nameColb.name} (${hexColb}), ${nameColc.name} (${hexColc}), ${nameCold.name} (${hexCold}), and ${nameCole.name} (${hexCole})`; 
 //and of course we gotta write a good alt text, accessibility is important.
 
 console.log("🎲 Rollin' dice & makin' colors! 🌈"); 
@@ -435,9 +435,17 @@ console.log("🎲 Rollin' dice & makin' colors! 🌈");
 console.log(
   `🎨 hueSeed:${hueSeed}, hueRange:${hueRange}, satSeed:${satSeed} litSeed:${litSeed}`
 ); 
+
+console.log(altText);
 //debug stuff, and it's just cool to know and be able to look if I want to see how a particular palette was made.
 
+
 module.exports = {
+  nameCola,
+  nameColb,
+  nameColc,
+  nameCold,
+  nameCole,
   hexCola,
   hexColb,
   hexColc,

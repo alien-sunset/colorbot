@@ -1,6 +1,0 @@
-some ideas to work on for bot "upgrade"
-
-  * add color names (to status and alt?) (https://github.com/meodai/color-name-api)
-  * add hex codes to status text. (this one should be easy)
-  * can I check for notifications left while the bot was offline? and then reply to them?
-  

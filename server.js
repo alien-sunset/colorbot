@@ -9,6 +9,13 @@ const cron = require("node-cron");
 const fs = require("graceful-fs");
 const Canvas = require("canvas");
 const { convert } = require("html-to-text");
+const { AtpAgent, AtpSessionEvent, AtpSessionData, RichText } = require("@atproto/api");
+const {
+  postToBsky,
+  postReplyToBsky,
+  getNotifications,
+  getRootCdiAndUri,
+} = require("./Bsky.js");
 const Mastodon = require("mastodon-api");
 const {
   sendImageToMastodon,
@@ -18,243 +25,395 @@ const randomFromArray = require("./bits/random-from-array.js");
 const indefinite = require("indefinite");
 const ajectivesPos = require("./bits/ajectives-pos.js");
 
-//sending longs to console AND recordning them in a txt file, because sometimes the computer crashes, or you have to close things down before being able to check through and make sure everythign is running smoothly.
+
 (function () {
   let myConsole = new console.Console(
     fs.createWriteStream(`./logs/output${new Date().getTime()}.txt`)
   );
   let log_stdout = process.stdout;
-  let log_err = process.stderr;
   console.log = function (str) {
     myConsole.log(str);
     log_stdout.write(util.format(str) + "\n");
-  
   };
   console.error = console.log;
   console.warn = console.log;
   console.info = console.log;
-  })();
+})();  //sending longs to console AND recordning them in a txt file, because sometimes the computer crashes, or you have to close things down before being able to check through and make sure everythign is running smoothly.
 
-//relatedly, a little mini async doohickey to make log comment bits wait until the bits they are talking about are done before popping up, purely aesthetic, as any major issues will just throw an error anyways. grabbed from stack overflow, but can't find the exact page now.
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+
+const agent = new AtpAgent({
+  service: "https://bsky.social",
+  persistSession: AtpSessionEvent, AtpSessionData,
+  // store the session-data for reuse
+});
+
+agent.login({
+  identifier: process.env.BLUESKY_USERNAME,
+  password: process.env.BLUESKY_PASSWORD,
+});
+
 
 const masto = new Mastodon({
-  client_key: process.env.COLORBOT_CLIENT_KEY,
-  access_token: process.env.COLORBOT_TOKEN,
-  api_url: process.env.BOTSINSPACE_API_URL,
+  client_key: process.env.COLORBOT_DOTART__CLIENT_KEY,
+  access_token: process.env.COLORBOT_DOTART_TOKEN,
+  api_url: process.env.DOT_ART_API_URL,
 });
 
 const botScript = async () => {
-  let palette = require("./srcpg.js");
+  const palette = require("./srcpg.js");
   const drawPaletteFileName = "draw-palette.png";
   const drawPaletteFilePath = __dirname + "/palettes/" + drawPaletteFileName;
 
   const canvasHeight = 500;
   const canvasWidth = 666,
-    colHeight = canvasHeight / 5,
-    ystart = canvasHeight / 5,
-    labelIndent = canvasWidth / 2.9,
-    textTop = ystart / 5.5;
-  const canvas = Canvas.createCanvas(canvasWidth, canvasHeight);
-  const ctx = canvas.getContext("2d");
-  const backgroundColor = "#FFFFFF";
+    rowHeight = canvasHeight / 5,
+    labelcenter = canvasWidth / 2,
+    toTextCenter = rowHeight / 2;
+    toTopTextCenter = (rowHeight / 7) * 2 ;
+    toBottomTextCenter = (rowHeight / 3) * 2;
 
-  console.log("🖍 let's draw a palette and then label it!");
+  console.log(`\n🖍 let's draw a palette and then label it!`);
 
   ctx.fillStyle = backgroundColor;
   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
   ctx.textDrawingMode = "glyph";
-  ctx.textBaseline = "top";
+  ctx.textBaseline = "middle";
 
   ctx.fillStyle = palette.hexCola;
-  ctx.fillRect(0, ystart * 0, canvasWidth, colHeight);
+  ctx.fillRect(0, rowHeight * 0, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColaContrast;
-  ctx.font = "57px Trebuchet MS";
-  ctx.fillText(palette.hexCola, labelIndent, ystart * 0 + textTop);
+  ctx.font = "35px Trebuchet MS";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(`${palette.nameCola.name}`, labelcenter, rowHeight * 0 + toTopTextCenter);
+  ctx.font = "45px Trebuchet MS";
+  ctx.fillText(`${palette.hexCola}`, labelcenter, rowHeight * 0 + toBottomTextCenter);
 
   ctx.fillStyle = palette.hexColb;
-  ctx.fillRect(0, ystart * 1, canvasWidth, colHeight);
+  ctx.fillRect(0, rowHeight * 1, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColbContrast;
-  ctx.font = "57px Trebuchet MS";
-  ctx.fillText(palette.hexColb, labelIndent, ystart * 1 + textTop);
+  ctx.font = "35px Trebuchet MS";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(`${palette.nameColb.name}`, labelcenter, rowHeight * 1 + toTopTextCenter);
+  ctx.font = "45px Trebuchet MS";
+  ctx.fillText(`${palette.hexColb}`, labelcenter, rowHeight * 1 + toBottomTextCenter);
 
   ctx.fillStyle = palette.hexColc;
-  ctx.fillRect(0, ystart * 2, canvasWidth, colHeight);
+  ctx.fillRect(0, rowHeight * 2, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColcContrast;
-  ctx.font = "57px Trebuchet MS";
-  ctx.fillText(palette.hexColc, labelIndent, ystart * 2 + textTop);
+  ctx.font = "35px Trebuchet MS";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(`${palette.nameColc.name}`, labelcenter, rowHeight * 2 + toTopTextCenter);
+  ctx.font = "45px Trebuchet MS";
+  ctx.fillText(`${palette.hexColc}`, labelcenter, rowHeight * 2 + toBottomTextCenter);
 
   ctx.fillStyle = palette.hexCold;
-  ctx.fillRect(0, ystart * 3, canvasWidth, colHeight);
+  ctx.fillRect(0, rowHeight * 3, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColdContrast;
-  ctx.font = "57px Trebuchet MS";
-  ctx.fillText(palette.hexCold, labelIndent, ystart * 3 + textTop);
+  ctx.font = "35px Trebuchet MS";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(`${palette.nameCold.name}`, labelcenter, rowHeight * 3 + toTopTextCenter);
+  ctx.font = "45px Trebuchet MS";
+  ctx.fillText(`${palette.hexCold}`, labelcenter, rowHeight * 3 + toBottomTextCenter);
 
   ctx.fillStyle = palette.hexCole;
-  ctx.fillRect(0, ystart * 4, canvasWidth, colHeight);
+  ctx.fillRect(0, rowHeight * 4, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColeContrast;
-  ctx.font = "57px Trebuchet MS";
-  ctx.fillText(palette.hexCole, labelIndent, ystart * 4 + textTop);
+  ctx.font = "35px Trebuchet MS";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(`${palette.nameCole.name}`, labelcenter, rowHeight * 4 + toTopTextCenter);
+  ctx.font = "45px Trebuchet MS";
+  ctx.fillText(`${palette.hexCole}`, labelcenter, rowHeight * 4 + toBottomTextCenter);
 
-  let canvasBuffer = canvas.toBuffer();
-  fs.writeFile(drawPaletteFilePath, canvasBuffer, (err) => {
-    if (err) {
-      return reject(err);
-    }
-
-    console.log("🌟 everything went well in creating the image! 💪");
+  const canvasBuffer = canvas.toBuffer("image/png");
+  fs.writeFileSync(drawPaletteFilePath, canvasBuffer, (err) => {
+    if (err) { console.log(err) };
   });
-  let ajective = randomFromArray(ajectivesPos);
-  const statusText = `${indefinite(ajective)} new palette for you to enjoy: #color #ColorPalette`;
-  const imageDescription = `a block of five color swatches with Hex values of ${palette.hexCola}, ${palette.hexColb}, ${palette.hexColc}, ${palette.hexCold}, and ${palette.hexCole}.`;
+  console.log(`🌟 everything went well in creating the image! 💪\n`);
 
-  return sendImageToMastodon(drawPaletteFilePath, imageDescription, statusText)
+  const ajective = randomFromArray(ajectivesPos);
+  const statusText = `${indefinite(ajective)} new palette for you to enjoy: \n\n${palette.nameCola.name} (${palette.hexCola}),\n${palette.nameColb.name} (${palette.hexColb}), \n${palette.nameColc.name} (${palette.hexColc}), \n${palette.nameCold.name} (${palette.hexCold}), and \n${palette.nameCole.name} (${palette.hexCole}) \n\n#color #ColorPalette`;
+  const imageDescription = `${palette.altText}.`;
+
+  return (
+    sendImageToMastodon(drawPaletteFilePath, imageDescription, statusText),
+    postToBsky(canvasBuffer, imageDescription, statusText)
+  )
     .then(() => {
-      console.log(
-        `🤞 Hopefully, we've sent a canvas with the following colors: ${palette.hexCola}, ${palette.hexColb}, ${palette.hexColc}, ${palette.hexCold}, and ${palette.hexCole} \n`
-      );
-      delete require.cache[require.resolve("./bits/ajectives-pos.js")];
-      delete require.cache[require.resolve("./bits/random-from-array.js")];
-      delete require.cache[require.resolve("./srcpg.js")];
+     console.log(`\n${statusText}\n`);
+     delete require.cache[require.resolve("./bits/ajectives-pos.js")];
+     delete require.cache[require.resolve("./bits/random-from-array.js")];
+     delete require.cache[require.resolve("./srcpg.js")];
     })
-    .catch((error) => {
-      console.error("error:", error);
-    });
+    .catch((err) => { console.error(`error: ${err}`) });
 };
 
-const replyBotScript = async (acct, id) => {
-  let palette = require("./srcpg.js");
+const mastoReplyBotScript = async (acct, id) => {
+  const palette = require("./srcpg.js");
   const drawReplyPaletteFileName = "draw-reply-palette.png";
   const drawReplyPaletteFilePath = __dirname + "/palettes/" + drawReplyPaletteFileName;
 
   const canvasHeight = 500;
   const canvasWidth = 666,
-    colHeight = canvasHeight / 5,
-    ystart = canvasHeight / 5,
-    labelIndent = canvasWidth / 2.9,
-    textTop = ystart / 5.5;
-  const canvas = Canvas.createCanvas(canvasWidth, canvasHeight);
-  const ctx = canvas.getContext("2d");
-  const backgroundColor = "#FFFFFF";
+    rowHeight = canvasHeight / 5,
+    labelcenter = canvasWidth / 2,
+    toTextCenter = rowHeight / 2;
+    toTopTextCenter = (rowHeight / 7) * 2 ;
+    toBottomTextCenter = (rowHeight / 3) * 2;
 
-  console.log("🖍 let's draw a palette and then label it!");
+  console.log(`\n🖍 let's draw a palette and then label it!`);
 
   ctx.fillStyle = backgroundColor;
   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
   ctx.textDrawingMode = "glyph";
-  ctx.textBaseline = "top";
+  ctx.textBaseline = "middle";
 
   ctx.fillStyle = palette.hexCola;
-  ctx.fillRect(0, ystart * 0, canvasWidth, colHeight);
+  ctx.fillRect(0, rowHeight * 0, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColaContrast;
-  ctx.font = "57px Trebuchet MS";
-  ctx.fillText(palette.hexCola, labelIndent, ystart * 0 + textTop);
+  ctx.font = "35px Trebuchet MS";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(`${palette.nameCola.name}`, labelcenter, rowHeight * 0 + toTopTextCenter);
+  ctx.font = "45px Trebuchet MS";
+  ctx.fillText(`${palette.hexCola}`, labelcenter, rowHeight * 0 + toBottomTextCenter);
 
   ctx.fillStyle = palette.hexColb;
-  ctx.fillRect(0, ystart * 1, canvasWidth, colHeight);
+  ctx.fillRect(0, rowHeight * 1, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColbContrast;
-  ctx.font = "57px Trebuchet MS";
-  ctx.fillText(palette.hexColb, labelIndent, ystart * 1 + textTop);
+  ctx.font = "35px Trebuchet MS";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(`${palette.nameColb.name}`, labelcenter, rowHeight * 1 + toTopTextCenter);
+  ctx.font = "45px Trebuchet MS";
+  ctx.fillText(`${palette.hexColb}`, labelcenter, rowHeight * 1 + toBottomTextCenter);
 
   ctx.fillStyle = palette.hexColc;
-  ctx.fillRect(0, ystart * 2, canvasWidth, colHeight);
+  ctx.fillRect(0, rowHeight * 2, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColcContrast;
-  ctx.font = "57px Trebuchet MS";
-  ctx.fillText(palette.hexColc, labelIndent, ystart * 2 + textTop);
+  ctx.font = "35px Trebuchet MS";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(`${palette.nameColc.name}`, labelcenter, rowHeight * 2 + toTopTextCenter);
+  ctx.font = "45px Trebuchet MS";
+  ctx.fillText(`${palette.hexColc}`, labelcenter, rowHeight * 2 + toBottomTextCenter);
 
   ctx.fillStyle = palette.hexCold;
-  ctx.fillRect(0, ystart * 3, canvasWidth, colHeight);
+  ctx.fillRect(0, rowHeight * 3, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColdContrast;
-  ctx.font = "57px Trebuchet MS";
-  ctx.fillText(palette.hexCold, labelIndent, ystart * 3 + textTop);
+  ctx.font = "35px Trebuchet MS";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(`${palette.nameCold.name}`, labelcenter, rowHeight * 3 + toTopTextCenter);
+  ctx.font = "45px Trebuchet MS";
+  ctx.fillText(`${palette.hexCold}`, labelcenter, rowHeight * 3 + toBottomTextCenter);
 
   ctx.fillStyle = palette.hexCole;
-  ctx.fillRect(0, ystart * 4, canvasWidth, colHeight);
+  ctx.fillRect(0, rowHeight * 4, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColeContrast;
-  ctx.font = "57px Trebuchet MS";
-  ctx.fillText(palette.hexCole, labelIndent, ystart * 4 + textTop);
+  ctx.font = "35px Trebuchet MS";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(`${palette.nameCole.name}`, labelcenter, rowHeight * 4 + toTopTextCenter);
+  ctx.font = "45px Trebuchet MS";
+  ctx.fillText(`${palette.hexCole}`, labelcenter, rowHeight * 4 + toBottomTextCenter);
 
-  let canvasBuffer = canvas.toBuffer();
-  fs.writeFile(drawReplyPaletteFilePath, canvasBuffer, (err) => {
-    if (err) {
-      console.log(err);
-    }
-
-    console.log("🌟 everything went well in creating the image! 💪");
+  const canvasBuffer = canvas.toBuffer();
+  fs.writeFileSync(drawReplyPaletteFilePath, canvasBuffer, (err) => {
+    if (err) { console.log(err) };
   });
-  let ajective = randomFromArray(ajectivesPos);
-  const statusText = `hey, @${acct}, here's ${indefinite(ajective)} new palette, just for you: #color #ColorPalette`;
-  const imageDescription = `a block of five color swatches with Hex values of ${palette.hexCola}, ${palette.hexColb}, ${palette.hexColc}, ${palette.hexCold}, and ${palette.hexCole}.`;
+  console.log(`🌟 everything went well in creating the image! 💪\n`);
+
+  const ajective = randomFromArray(ajectivesPos);
+  const statusText = `hey, @${acct}, here's ${indefinite(ajective)} new palette, just for you:  \n\n${palette.nameCola.name} (${palette.hexCola}),\n${palette.nameColb.name} (${palette.hexColb}), \n${palette.nameColc.name} (${palette.hexColc}), \n${palette.nameCold.name} (${palette.hexCold}), and \n${palette.nameCole.name} (${palette.hexCole}) \n\n#color #ColorPalette`;
+  const imageDescription = `${palette.altText}.`;
   const replyId = id;
 
-  return sendReplyImageToMastodon(
-    drawReplyPaletteFilePath,
-    imageDescription,
-    statusText,
-    replyId
-  )
+  return sendReplyImageToMastodon(drawReplyPaletteFilePath, imageDescription, statusText, replyId)
     .then(() => {
-      console.log(
-        `🤞 Hopefully, we've sent a canvas with the following colors: ${palette.hexCola}, ${palette.hexColb} ${palette.hexColc}, ${palette.hexCold}, and ${palette.hexCole} \n`
-      );
+      console.log(`${statusText} \n`);
       delete require.cache[require.resolve("./bits/ajectives-pos.js")];
       delete require.cache[require.resolve("./bits/random-from-array.js")];
       delete require.cache[require.resolve("./srcpg.js")];
     })
-    .catch((error) => {
-      console.error("error:", error);
-    });
+    .catch((err) => { console.error(`error: ${err}`) });
 };
 
-const listener = app.listen(process.env.PORT, () => {
-  console.log("📻 listening in on port " + listener.address().port);
-  console.log(`⏰ server time: ${new Date().toLocaleString()}`);
-  console.log(`💖🧡💛💚💙💜\n`);
-});
-//the listening bits confounds me, this works so I'm leaving it as is, most of this bit below I got from the CodingTrain's Mastodon bot tutorial videos/github (https://github.com/CodingTrain/Mastodon-Bot)
-const stream = masto.stream("streaming/user");
+const bskyReplyBotScript = async (replyRef) => {
+  const palette = require("./srcpg.js");
+  const drawReplyPaletteFileName = "draw-reply-palette.png";
+  const drawReplyPaletteFilePath =
+    __dirname + "/palettes/" + drawReplyPaletteFileName;
+
+    const canvasHeight = 500;
+    const canvasWidth = 666,
+      rowHeight = canvasHeight / 5,
+      labelcenter = canvasWidth / 2,
+      toTextCenter = rowHeight / 2;
+      toTopTextCenter = (rowHeight / 7) * 2 ;
+      toBottomTextCenter = (rowHeight / 3) * 2;
+  
+    console.log(`\n🖍 let's draw a palette and then label it!`);
+  
+    ctx.fillStyle = backgroundColor;
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.textDrawingMode = "glyph";
+    ctx.textBaseline = "middle";
+  
+    ctx.fillStyle = palette.hexCola;
+    ctx.fillRect(0, rowHeight * 0, canvasWidth, rowHeight);
+  
+    ctx.fillStyle = palette.hexColaContrast;
+    ctx.font = "35px Trebuchet MS";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(`${palette.nameCola.name}`, labelcenter, rowHeight * 0 + toTopTextCenter);
+    ctx.font = "45px Trebuchet MS";
+    ctx.fillText(`${palette.hexCola}`, labelcenter, rowHeight * 0 + toBottomTextCenter);
+  
+    ctx.fillStyle = palette.hexColb;
+    ctx.fillRect(0, rowHeight * 1, canvasWidth, rowHeight);
+  
+    ctx.fillStyle = palette.hexColbContrast;
+    ctx.font = "35px Trebuchet MS";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(`${palette.nameColb.name}`, labelcenter, rowHeight * 1 + toTopTextCenter);
+    ctx.font = "45px Trebuchet MS";
+    ctx.fillText(`${palette.hexColb}`, labelcenter, rowHeight * 1 + toBottomTextCenter);
+  
+    ctx.fillStyle = palette.hexColc;
+    ctx.fillRect(0, rowHeight * 2, canvasWidth, rowHeight);
+  
+    ctx.fillStyle = palette.hexColcContrast;
+    ctx.font = "35px Trebuchet MS";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(`${palette.nameColc.name}`, labelcenter, rowHeight * 2 + toTopTextCenter);
+    ctx.font = "45px Trebuchet MS";
+    ctx.fillText(`${palette.hexColc}`, labelcenter, rowHeight * 2 + toBottomTextCenter);
+  
+    ctx.fillStyle = palette.hexCold;
+    ctx.fillRect(0, rowHeight * 3, canvasWidth, rowHeight);
+  
+    ctx.fillStyle = palette.hexColdContrast;
+    ctx.font = "35px Trebuchet MS";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(`${palette.nameCold.name}`, labelcenter, rowHeight * 3 + toTopTextCenter);
+    ctx.font = "45px Trebuchet MS";
+    ctx.fillText(`${palette.hexCold}`, labelcenter, rowHeight * 3 + toBottomTextCenter);
+  
+    ctx.fillStyle = palette.hexCole;
+    ctx.fillRect(0, rowHeight * 4, canvasWidth, rowHeight);
+  
+    ctx.fillStyle = palette.hexColeContrast;
+    ctx.font = "35px Trebuchet MS";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(`${palette.nameCole.name}`, labelcenter, rowHeight * 4 + toTopTextCenter);
+    ctx.font = "45px Trebuchet MS";
+    ctx.fillText(`${palette.hexCole}`, labelcenter, rowHeight * 4 + toBottomTextCenter);
+
+  const canvasBuffer = canvas.toBuffer();
+  fs.writeFileSync(drawReplyPaletteFilePath, canvasBuffer, (err) => {
+    if (err) { console.log(err) };
+  });
+  console.log(`🌟 everything went well in creating the image! 💪\n`);
+
+  const ajective = randomFromArray(ajectivesPos);
+  const statusText = `heya!  here's ${indefinite(ajective)} new palette, just for you:  \n\n${palette.nameCola.name} (${palette.hexCola}),\n${palette.nameColb.name} (${palette.hexColb}), \n${palette.nameColc.name} (${palette.hexColc}), \n${palette.nameCold.name} (${palette.hexCold}), and \n${palette.nameCole.name} (${palette.hexCole}) \n\n#color #ColorPalette`;
+  const imageDescription = `${palette.altText}.`;
+
+  return postReplyToBsky(canvasBuffer, imageDescription, statusText, replyRef)
+    .then(() => {
+      console.log(`\n${statusText}\n`);
+      delete require.cache[require.resolve("./bits/ajectives-pos.js")];
+      delete require.cache[require.resolve("./bits/random-from-array.js")];
+      delete require.cache[require.resolve("./srcpg.js")];
+    })
+    .catch((err) => { console.error(`error: ${err}`) });
+};
+
+
+console.log(`⏰ server time: ${new Date().toLocaleString()}`);
+console.log(`💖🧡💛💚💙💜\n`);
+
+const stream = masto.stream("streaming/user");//the stream bits confounds me, this works so I'm leaving it as is, most of this bit below I got from the CodingTrain's Mastodon bot tutorial videos/github (https://github.com/CodingTrain/Mastodon-Bot)
+stream.on("error", (err) => console.log(err));
 console.log("📡 listening for super cool comments!");
-stream.on('error', err => console.log(err))
 stream.on("message", (response) => {
   if (response.event === "notification" && response.data.type === "mention") {
     const id = response.data.status.id;
     const acct = response.data.account.acct;
     const content = response.data.status.content;
     fs.writeFileSync(
-      `logs/messageData${new Date().getTime()}.json`,
+      `logs/mastomessageData${new Date().getTime()}.json`,
       JSON.stringify(response.data.status, null, 2)
     );
-    sleep(1000).then(() => {
-      const cOptions = { wordwrap: false };
-      console.log(`\n🎉 someone tagged us! 🎊\n`);
-      console.log(`${convert(content, cOptions)}\n`);
-    });
-    sleep(1000).then(() => {
-      replyBotScript(acct, id);
-    });
-    sleep(5000).then(() => {
-      console.log(`✨ ✨ ✨ \n\n`);
-    });
+    const cOptions = { wordwrap: false };
+    console.log(`\n🎉 someone tagged us! 🎊\n`);
+    console.log(`${convert(content, cOptions)}\n`);
+    return mastoReplyBotScript(acct, id)
+      .then(() => console.log(`✨ ✨ ✨`))
+      .catch((err) => console.error(`oopsies! ${err}`));
   }
+});
+
+async function pollApi() {
+  try {    // Request data from the API endpoint
+    const notifs = await getNotifications();
+    if (notifs.length > 0) {
+      await agent.app.bsky.notification.updateSeen({ seenAt: new Date().toISOString() });
+    }
+    for await (const notif of notifs) {
+      const replyRef = {
+        parent: {
+          cid: notif.cid,
+          uri: notif.uri,
+        },
+        root: await getRootCdiAndUri(notif),
+      };
+      const content = notif?.record?.text;
+      const sender = notif?.author;
+      fs.writeFileSync(
+        `logs/bskymessageData${new Date().getTime()}.json`,
+        JSON.stringify(notif, null, 2)
+      );
+      console.log(`\n🎉 someone tagged us! 🎊\n`);
+      console.log(`${sender.handle} Said:`);
+      console.log(content);
+      console.log(`\n✨ ✨ ✨\n`);
+      return bskyReplyBotScript(replyRef);
+    }
+  }
+  catch (error) { console.log(`Error: ${error}`) };
+};
+cron.schedule("*/5 * * * *", () => {
+  pollApi();
 });
 
 
 //schedule bits down here,
 cron.schedule("*/30 * * * *", () => {
-  console.log(`"🕰 at the tone the time will be: ${new Date().toLocaleTimeString()}...BEEEEEEEEP! 🔔"`);
-});//this is purely to let me know that things are still running properly at a glance
+  console.log(
+    `"🕰 at the tone the time will be: ${new Date().toLocaleTimeString()}...BEEEEEEEEP! 🔔"`
+  );
+}); //this is purely to let me know that things are still running properly at a glance
 
 cron.schedule("29 8 * * *", () => {
   console.log(`\n🌄 time to make the morning donuts!\n`);
@@ -271,10 +430,7 @@ cron.schedule("31 20 * * *", () => {
   botScript(); //8:31pm
 });
 
-//cron.schedule("30 2 * * *", () => {
-//  console.log("🌕 time to make the late night donuts!");
-//  botScript(); //2:30am});
-
-//don't really know if I need these here, i've kinda spammed them everywhere, but better safe than sorry, i need to clear out the cache of variables otherwise the code just keeps reusing what it already made instead of generating new stuff each time it posts
-delete require.cache[require.resolve("./bits/ajectives-pos.js")];
-delete require.cache[require.resolve("./bits/random-from-array.js")];
+cron.schedule("30 2 * * *", () => {
+  console.log(`\n🌕 time to make the late night donuts!\n`);
+  botScript(); //2:30am
+});
