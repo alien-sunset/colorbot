@@ -46,7 +46,7 @@ async function postReplyToBsky(canvasBuffer, imageDescription, text, postReplyRe
     embed: {
       $type: 'app.bsky.embed.images',
       images: [
-        { image: (img.data.blob), alt: (imageDescription) }
+        { image: (img.data.blob), alt: (imageDescription), aspectRatio: (666, 500) }
       ]
     },
     reply: postReplyRef,
