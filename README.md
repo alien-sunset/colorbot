@@ -5,8 +5,8 @@ Hello!
 
 creating semi random, pricedurally generated color palettes!
 
-a Mastodon bot that lives at https://botsin.space/@Color_Palette_Bot
-and a generator web site that lives at https://alien-sunset.neocities.org/colorbot
+a Mastodon bot that lives at [https://mastodon.art/@Color_Palette_Bot](https://mastodon.art/@Color_Palette_Bot)
+and a generator web site that lives at [https://alien-sunset.neocities.org/bots/colorbot](https://alien-sunset.neocities.org/bots/colorbot)
 
 
 
@@ -44,7 +44,7 @@ At this point I pretty much could have finished but I needed more fanciness.
 
 8) Now it's just presentation, on the generator web site I made two tables to display the colors in both horizontal and vertical orientations with the hex code displayed over each color. A button to refresh the page to make a new palette, and two more buttons to convert the tables into images via Dom-to-Image so people can download the palettes if they want to save them. Spiffy.
 
-you can see the [completed generator website here](https://alien-sunset.neocities.org/colorbot)
+you can see the [completed generator website here](https://alien-sunset.neocities.org/bots/colorbot)
 it's quite a lot of fun to play with.
 
 But this was supposed to be a Mastodon bot, right?!
