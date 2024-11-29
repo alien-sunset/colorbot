@@ -238,6 +238,7 @@ const mastoReplyBotScript = async (acct, id) => {
   const replyId = id;
 
   return sendReplyImageToMastodon(drawReplyPaletteFilePath, imageDescription, statusText, replyId)
+  
     .then(() => {
       console.log(`${statusText} \n`);
       delete require.cache[require.resolve("./bits/ajectives-pos.js")];
@@ -331,6 +332,7 @@ const bskyReplyBotScript = async (replyRef) => {
   const imageDescription = `${palette.altText}.`;
 
   return postReplyToBsky(canvasBuffer, imageDescription, statusText, replyRef)
+
     .then(() => {
       console.log(`\n${statusText}\n`);
       delete require.cache[require.resolve("./bits/ajectives-pos.js")];
@@ -358,6 +360,7 @@ stream.on("message", (response) => {
     );
     const cOptions = { wordwrap: false };
     console.log(`\n🎉 someone tagged us! 🎊\n`);
+    console.log(`${acct} said:`);
     console.log(`${convert(content, cOptions)}\n`);
     return mastoReplyBotScript(acct, id)
       .then(() => console.log(`✨ ✨ ✨`))
@@ -392,7 +395,7 @@ async function pollApi() {
       return bskyReplyBotScript(replyRef);
     }
   }
-  catch (error) { console.log(`listening Error: ${error}`) };
+  catch (error) { console.log(`Bsky listening Error: ${error}`) };
 };
 cron.schedule("*/5 * * * *", () => {
   pollApi();

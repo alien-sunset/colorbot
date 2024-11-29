@@ -25,7 +25,13 @@ async function postToBsky(canvasBuffer, imageDescription, text) {
     embed: {
       $type: 'app.bsky.embed.images',
       images: [
-        { image: (img.data.blob), alt: (imageDescription) }
+        { image: (img.data.blob),
+          alt: (imageDescription),
+          "aspectRatio": {
+          "height": 500,
+          "width": 666
+          }
+        }
       ]
     },
     createdAt: new Date().toISOString()
@@ -46,7 +52,13 @@ async function postReplyToBsky(canvasBuffer, imageDescription, text, postReplyRe
     embed: {
       $type: 'app.bsky.embed.images',
       images: [
-        { image: (img.data.blob), alt: (imageDescription), aspectRatio: (666, 500) }
+        { image: (img.data.blob),
+          alt: (imageDescription),
+          "aspectRatio": {
+          "height": 500,
+          "width": 666
+          }
+        }
       ]
     },
     reply: postReplyRef,
