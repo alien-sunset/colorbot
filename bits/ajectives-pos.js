@@ -68,7 +68,7 @@ let ajectives = [
   "dynamite",
   "effervescent",
   "elegant",
-  "elysin",
+  "elysian",
   "empyrean",
   "enchanting",
   "entertaining",
