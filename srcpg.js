@@ -1,5 +1,5 @@
 const fs = require("graceful-fs");
-const colornames = require("color-name-list");
+const {colorNameList} = require("color-name-list");
 const nearestColor = require('nearest-color');
 
 // this is all probably terribly messy/inefficient. but it works for me.
@@ -415,7 +415,7 @@ let hexColaContrast = getContrastingColor(hexToRgb(hexCola)),
   hexColeContrast = getContrastingColor(hexToRgb(hexCole));
 
 
-const colors = colornames.reduce((o, { name, hex }) => Object.assign(o, { [name]: hex }), {});
+const colors = colorNameList.reduce((o, { name, hex }) => Object.assign(o, { [name]: hex }), {});
 const nearest = nearestColor.from(colors);
 
 let nameCola = nearest(hexCola), 

@@ -124,11 +124,11 @@ const botScript = async () => {
   ctx.fillRect(0, rowHeight * 4, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColeContrast;
-  ctx.font = "35px Trebuchet MS";
+  ctx.font = "35px Trebuchet MS, Tahoma";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(`${palette.nameCole.name}`, labelcenter, rowHeight * 4 + toTopTextCenter);
-  ctx.font = "45px Trebuchet MS";
+  ctx.font = "45px Trebuchet MS, Tahoma";
   ctx.fillText(`${palette.hexCole}`, labelcenter, rowHeight * 4 + toBottomTextCenter);
 
   const canvasBuffer = canvas.toBuffer("image/png");
@@ -175,55 +175,55 @@ const mastoReplyBotScript = async (acct, id) => {
   ctx.fillRect(0, rowHeight * 0, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColaContrast;
-  ctx.font = "35px Trebuchet MS";
+  ctx.font = "35px Trebuchet MS, Tahoma";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(`${palette.nameCola.name}`, labelcenter, rowHeight * 0 + toTopTextCenter);
-  ctx.font = "45px Trebuchet MS";
+  ctx.font = "45px Trebuchet MS, Tahoma";
   ctx.fillText(`${palette.hexCola}`, labelcenter, rowHeight * 0 + toBottomTextCenter);
 
   ctx.fillStyle = palette.hexColb;
   ctx.fillRect(0, rowHeight * 1, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColbContrast;
-  ctx.font = "35px Trebuchet MS";
+  ctx.font = "35px Trebuchet MS, Tahoma";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(`${palette.nameColb.name}`, labelcenter, rowHeight * 1 + toTopTextCenter);
-  ctx.font = "45px Trebuchet MS";
+  ctx.font = "45px Trebuchet MS, Tahoma";
   ctx.fillText(`${palette.hexColb}`, labelcenter, rowHeight * 1 + toBottomTextCenter);
 
   ctx.fillStyle = palette.hexColc;
   ctx.fillRect(0, rowHeight * 2, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColcContrast;
-  ctx.font = "35px Trebuchet MS";
+  ctx.font = "35px Trebuchet MS, Tahoma";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(`${palette.nameColc.name}`, labelcenter, rowHeight * 2 + toTopTextCenter);
-  ctx.font = "45px Trebuchet MS";
+  ctx.font = "45px Trebuchet MS, Tahoma";
   ctx.fillText(`${palette.hexColc}`, labelcenter, rowHeight * 2 + toBottomTextCenter);
 
   ctx.fillStyle = palette.hexCold;
   ctx.fillRect(0, rowHeight * 3, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColdContrast;
-  ctx.font = "35px Trebuchet MS";
+  ctx.font = "35px Trebuchet MS, Tahoma";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(`${palette.nameCold.name}`, labelcenter, rowHeight * 3 + toTopTextCenter);
-  ctx.font = "45px Trebuchet MS";
+  ctx.font = "45px Trebuchet MS, Tahoma";
   ctx.fillText(`${palette.hexCold}`, labelcenter, rowHeight * 3 + toBottomTextCenter);
 
   ctx.fillStyle = palette.hexCole;
   ctx.fillRect(0, rowHeight * 4, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColeContrast;
-  ctx.font = "35px Trebuchet MS";
+  ctx.font = "35px Trebuchet MS, Tahoma";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(`${palette.nameCole.name}`, labelcenter, rowHeight * 4 + toTopTextCenter);
-  ctx.font = "45px Trebuchet MS";
+  ctx.font = "45px Trebuchet MS, Tahoma";
   ctx.fillText(`${palette.hexCole}`, labelcenter, rowHeight * 4 + toBottomTextCenter);
 
   const canvasBuffer = canvas.toBuffer();
@@ -270,55 +270,55 @@ const bskyReplyBotScript = async (replyRef) => {
   ctx.fillRect(0, rowHeight * 0, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColaContrast;
-  ctx.font = "35px Trebuchet MS";
+  ctx.font = "35px Trebuchet MS, Tahoma";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(`${palette.nameCola.name}`, labelcenter, rowHeight * 0 + toTopTextCenter);
-  ctx.font = "45px Trebuchet MS";
+  ctx.font = "45px Trebuchet MS, Tahoma";
   ctx.fillText(`${palette.hexCola}`, labelcenter, rowHeight * 0 + toBottomTextCenter);
 
   ctx.fillStyle = palette.hexColb;
   ctx.fillRect(0, rowHeight * 1, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColbContrast;
-  ctx.font = "35px Trebuchet MS";
+  ctx.font = "35px Trebuchet MS, Tahoma";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(`${palette.nameColb.name}`, labelcenter, rowHeight * 1 + toTopTextCenter);
-  ctx.font = "45px Trebuchet MS";
+  ctx.font = "45px Trebuchet MS, Tahoma";
   ctx.fillText(`${palette.hexColb}`, labelcenter, rowHeight * 1 + toBottomTextCenter);
 
   ctx.fillStyle = palette.hexColc;
   ctx.fillRect(0, rowHeight * 2, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColcContrast;
-  ctx.font = "35px Trebuchet MS";
+  ctx.font = "35px Trebuchet MS, Tahoma";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(`${palette.nameColc.name}`, labelcenter, rowHeight * 2 + toTopTextCenter);
-  ctx.font = "45px Trebuchet MS";
+  ctx.font = "45px Trebuchet MS, Tahoma";
   ctx.fillText(`${palette.hexColc}`, labelcenter, rowHeight * 2 + toBottomTextCenter);
 
   ctx.fillStyle = palette.hexCold;
   ctx.fillRect(0, rowHeight * 3, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColdContrast;
-  ctx.font = "35px Trebuchet MS";
+  ctx.font = "35px Trebuchet MS, Tahoma";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(`${palette.nameCold.name}`, labelcenter, rowHeight * 3 + toTopTextCenter);
-  ctx.font = "45px Trebuchet MS";
+  ctx.font = "45px Trebuchet MS, Tahoma";
   ctx.fillText(`${palette.hexCold}`, labelcenter, rowHeight * 3 + toBottomTextCenter);
 
   ctx.fillStyle = palette.hexCole;
   ctx.fillRect(0, rowHeight * 4, canvasWidth, rowHeight);
 
   ctx.fillStyle = palette.hexColeContrast;
-  ctx.font = "35px Trebuchet MS";
+  ctx.font = "35px Trebuchet MS, Tahoma";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(`${palette.nameCole.name}`, labelcenter, rowHeight * 4 + toTopTextCenter);
-  ctx.font = "45px Trebuchet MS";
+  ctx.font = "45px Trebuchet MS, Tahoma";
   ctx.fillText(`${palette.hexCole}`, labelcenter, rowHeight * 4 + toBottomTextCenter);
 
   const canvasBuffer = canvas.toBuffer();
